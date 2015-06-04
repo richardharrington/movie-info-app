@@ -15,29 +15,13 @@ function processImdbResponse(response) {
   return movies;
 }
 
-function removeChildren(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
-}
-
-function replaceChildren(parent, children) {
-  removeChildren(parent);
-  children.forEach(function(child) {
-    parent.appendChild(child);
-  });
-}
-
 function movieEl(movie) {
-  var el = document.createElement('li');
-  var title = document.createTextNode(movie.title);
-  el.appendChild(title);
-  return el;
+  return Dom.textEl('li', movie.title);
 }
 
 function renderMovies(movies, parentEl) {
   var movieEls = movies.map(movieEl);
-  replaceChildren(parentEl, movieEls);
+  Dom.replaceChildren(parentEl, movieEls);
 }
 
 var movieList = document.getElementById("movieList");
