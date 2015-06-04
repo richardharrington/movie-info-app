@@ -1,18 +1,15 @@
 function searchImdb(searchString, callback) {
-  Ajax.get('http://www.omdbapi.com/?s=' + encodeURIComponent(searchString), callback);
+  Ajax.get('http://www.omdbapi.com/?type=movie&s=' + encodeURIComponent(searchString), callback);
 }
 
 function processImdbSearchResponse(response) {
-  var rawRecords = response.Search;
-  var movies = rawRecords.filter(function(record) {
-    return record.Type === "movie";
-  }).map(function(movie) {
+  var movies = response.Search;
+  return movies.map(function(movie) {
     return {
       title: movie.Title,
       oid: movie.imdbID
     };
   });
-  return movies;
 }
 
 function movieEl(movie) {
