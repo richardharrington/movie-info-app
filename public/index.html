@@ -4,19 +4,76 @@
   <meta charset="UTF-8">
   <title>GA Instructor Code Challenge</title>
   <style>
+
+    body {
+      background-color: #eacf96;
+      margin-left: 30px;
+      margin-top: 10px;
+      font-family: Verdana, sans-serif, serif;
+    }
+
+    table {
+      width: 450px;
+      border-spacing: 20px 10px;
+      border-collapse: separate;
+    }
+
     input {
-      width: 200px;
+      height: 40px;
+      width: 300px;
+      padding-left: 10px;
+      font-size: 1em;
     }
-    .field-name {
-      width: 100px;
-      display: inline-block;
+
+    #movieList {
+      margin-top: 20px;
     }
+
+    .movie-title {
+      margin-bottom: 0 0 5px 0;
+    }
+
+    .movie {
+      margin-bottom: 20px;
+      background-color: #f2e5c9;
+      padding: 20px;
+    }
+
+    ul, li {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .movie td {
+      vertical-align: top;
+    }
+
+    .movie td.field-name {
+      text-align: right;
+    }
+
+    button {
+      position: relative;
+      top: 2px;
+      margin-left: 10px;
+      width: 70px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: #bbb;
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+
+    button:hover {
+      background-color: #eee;
+    }
+
   </style>
 </head>
 <body>
   <h1>Movie Search</h1>
-  <label for="searchBox">Search for movies here:</label>
-  <input type="text" name="searchBox">
+  <input type="text" name="searchBox" placeholder="Search for movies here">
   <button type="submit">Go</button>
   <ul id="movieList">
 

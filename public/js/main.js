@@ -1,5 +1,4 @@
 var displayMap = {
-  Title: "Title",
   Year: "Year",
   Rated: "Rated",
   Released: "Released",
@@ -12,7 +11,7 @@ var displayMap = {
   Language: "Language",
   Country: "Country",
   Awards: "Awards",
-  Poster: "Poster",
+  // Poster: "Poster",
   Metascore: "Metascore",
   imdbRating: "IMDB Rating",
   imdbVotes: "IMDB Votes"
@@ -63,13 +62,14 @@ function movieEl(movie) {
   });
 
   var fieldEls = pairs.map(function(pair) {
-    var fieldNameEl = Dom.el('span', {className: 'field-name'}, pair[0]);
-    var fieldTextEl = Dom.el('span', null, pair[1]);
-    return Dom.el('li', null, [fieldNameEl, fieldTextEl]);
+    var fieldNameEl = Dom.el('td', {className: 'field-name'}, pair[0]);
+    var fieldTextEl = Dom.el('td', {className: 'field-description'}, pair[1]);
+    return Dom.el('tr', null, [fieldNameEl, fieldTextEl]);
   });
 
-  var dataContainer = Dom.el('ul', null, fieldEls);
-  return Dom.el('li', null, dataContainer);
+  var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title)
+  var movieInfo = Dom.el('table', null, fieldEls);
+  return Dom.el('li', {className: 'movie'}, [movieTitle, movieInfo]);
 }
 
 function makeMoviesRenderer(parentEl) {
