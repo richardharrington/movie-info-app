@@ -29,8 +29,7 @@ window.Dom = (function() {
     }
   }
 
-  function el(tagName, attributes, childNodes) {
-    var children = childNodes;
+  function el(tagName, attributes, children) {
     if (!Array.isArray(children)) {
       children = [children];
     }
