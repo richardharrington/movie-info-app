@@ -16,7 +16,7 @@ function processImdbResponse(response) {
 }
 
 function movieEl(movie) {
-  return Dom.textEl('li', movie.title);
+  return Dom.el('li', null, movie.title);
 }
 
 function renderMovies(movies, parentEl) {
