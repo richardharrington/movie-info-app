@@ -69,7 +69,12 @@ function movieEl(movie) {
 
   var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title)
   var movieInfo = Dom.el('table', null, fieldEls);
-  return Dom.el('li', {className: 'movie'}, [movieTitle, movieInfo]);
+  var movieComponents = [movieTitle, movieInfo];
+  if (movie.Poster) {
+    var moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
+    movieComponents = movieComponents.concat(moviePoster);
+  }
+  return Dom.el('li', {className: 'movie'}, movieComponents);
 }
 
 function makeMoviesRenderer(parentEl) {
