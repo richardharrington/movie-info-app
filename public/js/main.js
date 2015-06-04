@@ -24,9 +24,20 @@ function renderMovies(movies, parentEl) {
   Dom.replaceChildren(parentEl, movieEls);
 }
 
-var movieList = document.getElementById("movieList");
-getMoviesFromImdb("Star Wars", function(response) {
-  var movies = processImdbResponse(response);
-  renderMovies(movies, movieList);
-});
+function makeItSo() {
+  var $ = Dom.$;
+  var movieList = $("#movieList");
+  var submitButton = $("button[type=submit]");
+  var textInput = $("input[name=searchBox]")
+  submitButton.onclick = function() {
+    var searchString = textInput.value;
+    getMoviesFromImdb(searchString, function(response) {
+      var movies = processImdbResponse(response);
+      renderMovies(movies, movieList);
+    });
+  }
+}
+
+makeItSo();
+
 
