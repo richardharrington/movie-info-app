@@ -1,8 +1,5 @@
 window.Dom = (function() {
 
-  var textNode = document.createTextNode.bind(document);
-  var $ = document.querySelector.bind(document);
-
   function isString(obj) {
     return Object.prototype.toString.call(obj) == '[object String]';
   }
@@ -44,6 +41,8 @@ window.Dom = (function() {
     });
     return newEl;
   }
+
+  var $ = document.querySelector.bind(document);
 
   return {
     replaceChildren: replaceChildren,
