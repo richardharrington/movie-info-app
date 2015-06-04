@@ -5,7 +5,7 @@ function searchImdb(searchString, callback) {
 function processImdbSearchResponse(response) {
   var rawRecords = response.Search;
   var movies = rawRecords.filter(function(record) {
-    return record.Type = "movie";
+    return record.Type === "movie";
   }).map(function(movie) {
     return {
       title: movie.Title,
