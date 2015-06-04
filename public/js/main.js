@@ -30,7 +30,7 @@ function makeItSo() {
   var submitButton = $("button[type=submit]");
   var textInput = $("input[name=searchBox]")
   submitButton.onclick = function() {
-    var searchString = textInput.value;
+    var searchString = textInput.value.trim();
     searchImdb(searchString, function(response) {
       var movies = processImdbSearchResponse(response);
       renderMovies(movies, movieList);
