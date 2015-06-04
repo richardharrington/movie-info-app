@@ -68,13 +68,28 @@ function movieEl(movie) {
   });
 
   var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title)
-  var movieInfo = Dom.el('table', null, fieldEls);
+  var movieInfo = Dom.el('table', {className: "movie-info"}, fieldEls);
   var movieComponents = [movieTitle, movieInfo];
-  if (movie.Poster) {
+  if (movie.Poster && movie.Poster !== 'N/A') {
     var moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
     movieComponents = movieComponents.concat(moviePoster);
   }
-  return Dom.el('li', {className: 'movie'}, movieComponents);
+  var movieEl = Dom.el('li', {className: 'movie'}, movieComponents);
+  movieEl.onclick = function() {
+    if (movieEl.className.indexOf('expand') === -1) {
+      movieEl.className = 'movie expand';
+      movieTitle.className = 'movie-title expand'
+      movieInfo.className = 'movie-info expand';
+      moviePoster.className = 'movie-poster expand';
+    }
+    else {
+      movieEl.className = 'movie';
+      movieTitle.className = 'movie-title'
+      movieInfo.className = 'movie-info';
+      moviePoster.className = 'movie-poster';
+    }
+  }
+  return movieEl;
 }
 
 function makeMoviesRenderer(parentEl) {
