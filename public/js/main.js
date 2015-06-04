@@ -78,15 +78,9 @@ function movieEl(movie) {
   movieEl.onclick = function() {
     if (movieEl.className.indexOf('expand') === -1) {
       movieEl.className = 'movie expand';
-      movieTitle.className = 'movie-title expand'
-      movieInfo.className = 'movie-info expand';
-      moviePoster.className = 'movie-poster expand';
     }
     else {
       movieEl.className = 'movie';
-      movieTitle.className = 'movie-title'
-      movieInfo.className = 'movie-info';
-      moviePoster.className = 'movie-poster';
     }
   }
   return movieEl;
@@ -102,7 +96,7 @@ function makeMoviesRenderer(parentEl) {
 function makeItSo() {
   var submitButton = Dom.$("button[type=submit]");
   var textInput = Dom.$("input[name=searchBox]");
-  var movieList = Dom.$("#movieList");
+  var movieList = Dom.$(".movie-list");
   var renderMovies = makeMoviesRenderer(movieList);
 
   submitButton.onclick = function() {
