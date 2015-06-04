@@ -1,8 +1,8 @@
-function getMoviesFromImdb(searchString, callback) {
+function searchImdb(searchString, callback) {
   Ajax.get('http://www.omdbapi.com/?s=' + encodeURIComponent(searchString), callback);
 }
 
-function processImdbResponse(response) {
+function processImdbSearchResponse(response) {
   var rawRecords = response.Search;
   var movies = rawRecords.filter(function(record) {
     return record.Type = "movie";
@@ -31,8 +31,8 @@ function makeItSo() {
   var textInput = $("input[name=searchBox]")
   submitButton.onclick = function() {
     var searchString = textInput.value;
-    getMoviesFromImdb(searchString, function(response) {
-      var movies = processImdbResponse(response);
+    searchImdb(searchString, function(response) {
+      var movies = processImdbSearchResponse(response);
       renderMovies(movies, movieList);
     });
   }
