@@ -27,18 +27,20 @@ window.Dom = (function() {
   }
 
   function el(tagName, attributes, children) {
-    if (!Array.isArray(children)) {
-      children = [children];
-    }
     var newEl = document.createElement(tagName);
     if (attributes) {
       Object.keys(attributes).forEach(function(key) {
         newEl[key] = attributes[key];
       });
     }
-    children.forEach(function(child) {
-      newEl.appendChild(makeSureItsANode(child));
-    });
+    if (children) {
+      if (!Array.isArray(children)) {
+        children = [children];
+      }
+      children.forEach(function(child) {
+        newEl.appendChild(makeSureItsANode(child));
+      });
+    }
     return newEl;
   }
 
