@@ -13,10 +13,10 @@ window.Dom = (function() {
     }
   }
 
-  function replaceChildren(parent, children) {
-    removeChildren(parent);
+  function replaceChildren(el, children) {
+    removeChildren(el);
     children.forEach(function(child) {
-      parent.appendChild(child);
+      el.appendChild(child);
     });
   }
 
