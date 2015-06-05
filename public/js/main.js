@@ -69,17 +69,20 @@ function storeFavorite(movie) {
 }
 
 function movieEl(movie) {
-  var pairs = Object.keys(movie).filter(function(key) {
+  var fields = Object.keys(movie).filter(function(key) {
     var isFieldInListOfFieldsToDisplay = !!displayMap[key];
     return isFieldInListOfFieldsToDisplay && movie[key] !== 'N/A';
   }).map(function(key) {
-    return [displayMap[key], movie[key]];
+    return {
+      name: displayMap[key],
+      content: movie[key]
+    };
   });
 
-  var fieldEls = pairs.map(function(pair) {
-    var fieldNameEl = Dom.el('td', {className: 'field-name'}, pair[0]);
-    var fieldTextEl = Dom.el('td', {className: 'field-description'}, pair[1]);
-    return Dom.el('tr', null, [fieldNameEl, fieldTextEl]);
+  var fieldEls = fields.map(function(field) {
+    var fieldNameEl = Dom.el('td', {className: 'field-name'}, field.name);
+    var fieldContentEl = Dom.el('td', {className: 'field-content'}, field.content);
+    return Dom.el('tr', null, [fieldNameEl, fieldContentEl]);
   });
 
   var areImagesAllowed = isImageDownloadFromImdbAllowed();
