@@ -17,32 +17,20 @@ var displayMap = {
 };
 
 function searchImdb(searchString, callback) {
-  Ajax.get('http://www.omdbapi.com/?type=movie&s=' + encodeURIComponent(searchString), callback);
+  Ajax.get('http://www.omdbapi.com/?type=movie&s=' +
+           encodeURIComponent(searchString), callback);
 }
 
-function fetchFullMovieRecord(oid, callback) {
-  Ajax.get('http://www.omdbapi.com/?i=' + oid, callback);
-}
-
-function oidsFromSearchResponse(response) {
-  var movies = response.Search;
+function fullMovieRoutes(movies) {
   return movies.map(function(movie) {
-    return movie.imdbID;
+    var oid = movie.imdbID;
+    return 'http://www.omdbapi.com/?i=' + oid;
   });
 }
 
-function fetchFullMovieRecords(oids, callback) {
-  var counter = oids.length;
-  var movies = [];
-  oids.forEach(function(oid) {
-    fetchFullMovieRecord(oid, function(movie) {
-      movies.push(movie);
-      counter--;
-      if (counter === 0) {
-        callback(movies);
-      }
-    });
-  });
+function fetchFullMovieRecords(movies, callback) {
+  var routes = fullMovieRoutes(movies);
+  Ajax.multiGet(routes, callback);
 }
 
 function movieForFavoriting(movie) {
@@ -96,8 +84,8 @@ function makeItSo() {
   submitButton.onclick = function() {
     var searchString = textInput.value.trim();
     searchImdb(searchString, function(response) {
-      var oids = oidsFromSearchResponse(response);
-      fetchFullMovieRecords(oids, renderMovies);
+      var movies = response.Search;
+      fetchFullMovieRecords(movies, renderMovies);
     });
   }
 }

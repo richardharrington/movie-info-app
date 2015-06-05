@@ -39,6 +39,20 @@ window.Ajax = (function() {
     req.send();
   }
 
+  function multiGet(routes, callback) {
+    var counter = routes.length;
+    var responses = [];
+    routes.forEach(function(route) {
+      Ajax.get(route, function(response) {
+        responses.push(response);
+        counter--;
+        if (counter === 0) {
+          callback(responses);
+        }
+      });
+    });
+  }
+
   function post(route, data, callback) {
     var req = new XMLHttpRequest();
     req.open('POST', route, true);
@@ -54,6 +68,7 @@ window.Ajax = (function() {
 
   return {
     get: get,
+    multiGet: multiGet,
     post: post
   };
 
