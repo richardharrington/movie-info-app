@@ -76,12 +76,7 @@ function movieEl(movie) {
   }
   var movieEl = Dom.el('li', {className: 'movie'}, movieComponents);
   movieEl.onclick = function() {
-    if (movieEl.className.indexOf('expand') === -1) {
-      movieEl.className = 'movie expand';
-    }
-    else {
-      movieEl.className = 'movie';
-    }
+    Dom.toggleClassName(movieEl, 'expand');
   }
   return movieEl;
 }

@@ -4,6 +4,17 @@ window.Dom = (function() {
     return Object.prototype.toString.call(obj) == '[object String]';
   }
 
+  function toggleClassName(el, classToToggle) {
+    var className = el.className;
+    var classToToggleRegExp = new RegExp('\\b' + classToToggle + '\\b');
+    if (className.match(classToToggleRegExp)) {
+      el.className = className.replace(classToToggleRegExp, '').trim();
+    }
+    else {
+      el.className = (className + ' ' + classToToggle).trim();
+    }
+  }
+
   function removeChildren(el) {
     while (el.firstChild) {
       el.removeChild(el.firstChild);
@@ -48,6 +59,7 @@ window.Dom = (function() {
 
   return {
     replaceChildren: replaceChildren,
+    toggleClassName: toggleClassName,
     el: el,
     $: $
   };
