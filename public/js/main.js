@@ -109,6 +109,14 @@ function makeMoviesRenderer(parentEl) {
   }
 }
 
+function launchSearch(textInput, callback) {
+  var searchString = textInput.value.trim();
+  searchImdb(searchString, function(response) {
+    var movies = response.Search;
+    fetchFullMovieRecords(movies, callback);
+  });
+}
+
 function makeItSo() {
   var submitButton = Dom.$("button[type=submit]");
   var fetchFavoritesLink = Dom.$(".fetch-favorites");
@@ -117,11 +125,14 @@ function makeItSo() {
   var renderMovies = makeMoviesRenderer(movieList);
 
   submitButton.onclick = function() {
-    var searchString = textInput.value.trim();
-    searchImdb(searchString, function(response) {
-      var movies = response.Search;
-      fetchFullMovieRecords(movies, renderMovies);
-    });
+    launchSearch(textInput, renderMovies);
+  }
+
+  textInput.onkeypress = function(event) {
+    var keyCode = event.which ? event.which : event.keyCode;
+    if (keyCode === 13) {
+      launchSearch(textInput, renderMovies);
+    }
   }
 
   fetchFavoritesLink.onclick = function() {
