@@ -33,7 +33,7 @@ function makeSortObjectsByKey(key) {
     return 0;
   }
   return function(arr) {
-    return arr.sort(comparator);
+    return arr.slice().sort(comparator);
   }
 }
 
