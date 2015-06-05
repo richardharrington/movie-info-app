@@ -33,11 +33,12 @@ function fetchFullMovieRecords(movies, callback) {
   Ajax.parallelGet(routes, callback);
 }
 
-function movieForFavoriting(movie) {
-  return {
-    title: movie.Title,
+function storeFavorite(movie) {
+  var payload = {
+    name: movie.Title,
     oid: movie.imdbID
   };
+  Ajax.post('/favorites', payload);
 }
 
 function movieEl(movie) {
@@ -54,9 +55,10 @@ function movieEl(movie) {
     return Dom.el('tr', null, [fieldNameEl, fieldTextEl]);
   });
 
-  var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title)
+  var favorite = Dom.el('span', {className: "favorite-query"}, "Favorite?");
+  var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title);
   var movieInfo = Dom.el('table', {className: "movie-info"}, fieldEls);
-  var movieComponents = [movieTitle, movieInfo];
+  var movieComponents = [favorite, movieTitle, movieInfo];
   if (movie.Poster && movie.Poster !== 'N/A') {
     var moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
     movieComponents = movieComponents.concat(moviePoster);
@@ -65,6 +67,14 @@ function movieEl(movie) {
   movieEl.onclick = function() {
     Dom.toggleClass(movieEl, 'expand');
   }
+  var favoriteEventListener = function(event) {
+    event.stopPropagation();
+    favorite.innerHTML = "favorited!";
+    Dom.addClass(movieEl, 'favorite');
+    storeFavorite(movie);
+    favorite.removeEventListener('click', favoriteEventListener);
+  };
+  favorite.addEventListener('click', favoriteEventListener, false);
   return movieEl;
 }
 

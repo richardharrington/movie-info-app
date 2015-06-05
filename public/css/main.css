@@ -44,10 +44,8 @@ button:hover {
   margin-bottom: 5px;
   padding: 0 20px;
   position: relative;
-  -webkit-transition: margin .25s ease;
-  transition: margin .25s ease;
-  -webkit-transition: padding .25s ease;
-  transition: padding .25s ease;
+  -webkit-transition: all .25s ease;
+  transition: all .25s ease;
 }
 
 .movie.expand {
@@ -58,12 +56,45 @@ button:hover {
   background-color: #f2e5c9;
 }
 
+.movie .favorite-query {
+  display: inline-block;
+  font-size: 0.7em;
+  margin-right: 10px;
+  -webkit-transition: all .25s ease;
+  transition: all .25s ease;
+}
+
+.movie.favorite .favorite-query {
+  margin-right: 7px;
+}
+
+.movie .favorite-query:hover {
+  color: #777;
+}
+
+.movie.favorite .favorite-query:hover {
+  color: #000;
+}
+
+.movie.expand .favorite-query {
+  font-size: 0.9em;
+}
+
 .movie .movie-title {
+  display: inline-block;
   margin: 0 0 0 10px;
   font-weight: normal;
   font-size: 0.8em;
-  -webkit-transition: margin .25s ease;
-  transition: margin .25s ease;
+  -webkit-transition: all .25s ease;
+  transition: all .25s ease;
+}
+
+.movie.favorite .movie-title {
+  font-weight: bold;
+}
+
+.movie.favorite .movie-title {
+  font-weight: bold;
 }
 
 .movie.expand .movie-title {
@@ -98,8 +129,8 @@ button:hover {
   top: 70px;
   left: 590px;
   opacity: 0;
-  -webkit-transition: opacity .25s ease;
-  transition: opacity .25s ease;
+  -webkit-transition: all .25s ease;
+  transition: all .25s ease;
 }
 
 .movie.expand .movie-poster {
