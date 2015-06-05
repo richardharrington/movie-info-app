@@ -15,6 +15,14 @@ window.Dom = (function() {
     }
   }
 
+  function addClass(el, classToAdd) {
+    var className = el.className;
+    var classToAddRegExp = new RegExp('\\b' + classToAdd + '\\b');
+    if (!className.match(classToAddRegExp)) {
+      el.className = (className + ' ' + classToAdd).trim();
+    }
+  }
+
   function removeChildren(el) {
     while (el.firstChild) {
       el.removeChild(el.firstChild);
@@ -59,6 +67,7 @@ window.Dom = (function() {
 
   return {
     toggleClass: toggleClass,
+    addClass: addClass,
     replaceChildren: replaceChildren,
     el: el,
     $: $
