@@ -18,5 +18,3 @@ Currently a work in progress. Among the issues:
 - There needs to be a way to prevent duplicate favorites from being persisted.
 
 - We need to check the list of favorites when we do searches, so that we can mark them in the display if any of the existing favorites happen to also show up in the search display.
-
-- Last but not least, the posters are unfortunately showing up locally but not on Digital Ocean, unless the imdb image urls were already cached from looking at the site locally. Not sure what that's about.

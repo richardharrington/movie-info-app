@@ -16,6 +16,10 @@ var displayMap = {
   imdbVotes: "IMDB Votes"
 };
 
+function isImageDownloadFromImdbAllowed() {
+  return location.hostname === 'localhost';
+}
+
 function makeSortObjectsByKey(key) {
   var comparator = function(a, b) {
     var valueA = a[key];
@@ -78,15 +82,20 @@ function movieEl(movie) {
     return Dom.el('tr', null, [fieldNameEl, fieldTextEl]);
   });
 
+  var areImagesAllowed = isImageDownloadFromImdbAllowed();
+
   var favorite = Dom.el('span', {className: "favorite-query"}, "Favorite?");
   var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title);
   var movieInfo = Dom.el('table', {className: "movie-info"}, fieldEls);
   var movieComponents = [favorite, movieTitle, movieInfo];
-  if (movie.Poster && movie.Poster !== 'N/A') {
+  var showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A';
+  if (showPoster) {
     var moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
     movieComponents = movieComponents.concat(moviePoster);
   }
-  var movieEl = Dom.el('li', {className: 'movie'}, movieComponents);
+  var movieClassName = areImagesAllowed ? "movie" : "movie wide";
+  var movieEl = Dom.el('li', {className: movieClassName}, movieComponents);
+
   movieEl.onclick = function() {
     Dom.toggleClass(movieEl, 'expand');
   }

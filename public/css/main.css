@@ -120,6 +120,10 @@ button:hover {
   border-collapse: separate;
 }
 
+.movie.wide table.movie-info {
+  width: 700px;
+}
+
 .movie.expand table.movie-info {
   display: block;
 }
