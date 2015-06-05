@@ -42,7 +42,7 @@ function searchImdb(searchString, callback) {
 
 function fullMovieRoutes(movies) {
   return movies.map(function(movie) {
-    var oid = movie.imdbID;
+    var oid = movie.oid || movie.imdbID;
     return 'http://www.omdbapi.com/?i=' + oid;
   });
 }
@@ -50,6 +50,10 @@ function fullMovieRoutes(movies) {
 function fetchFullMovieRecords(movies, callback) {
   var routes = fullMovieRoutes(movies);
   Ajax.parallelGet(routes, callback);
+}
+
+function fetchFavorites(callback) {
+  Ajax.get('/favorites', callback);
 }
 
 function storeFavorite(movie) {
@@ -107,6 +111,7 @@ function makeMoviesRenderer(parentEl) {
 
 function makeItSo() {
   var submitButton = Dom.$("button[type=submit]");
+  var fetchFavoritesLink = Dom.$(".fetch-favorites");
   var textInput = Dom.$("input[name=searchBox]");
   var movieList = Dom.$(".movie-list");
   var renderMovies = makeMoviesRenderer(movieList);
@@ -118,6 +123,13 @@ function makeItSo() {
       fetchFullMovieRecords(movies, renderMovies);
     });
   }
+
+  fetchFavoritesLink.onclick = function() {
+    fetchFavorites(function(movies) {
+      fetchFullMovieRecords(movies, renderMovies);
+    });
+  }
+
 }
 
 makeItSo();

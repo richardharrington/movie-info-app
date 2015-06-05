@@ -30,6 +30,16 @@ button {
   font-size: 1.5em;
 }
 
+.fetch-favorites {
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-left: 3px;
+}
+
+.fetch-favorites:hover {
+  color: #777;
+}
+
 button:hover {
   background-color: #eee;
 }
