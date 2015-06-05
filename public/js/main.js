@@ -30,7 +30,7 @@ function fullMovieRoutes(movies) {
 
 function fetchFullMovieRecords(movies, callback) {
   var routes = fullMovieRoutes(movies);
-  Ajax.multiGet(routes, callback);
+  Ajax.parallelGet(routes, callback);
 }
 
 function movieForFavoriting(movie) {
@@ -63,7 +63,7 @@ function movieEl(movie) {
   }
   var movieEl = Dom.el('li', {className: 'movie'}, movieComponents);
   movieEl.onclick = function() {
-    Dom.toggleClassName(movieEl, 'expand');
+    Dom.toggleClass(movieEl, 'expand');
   }
   return movieEl;
 }

@@ -4,7 +4,7 @@ window.Dom = (function() {
     return Object.prototype.toString.call(obj) == '[object String]';
   }
 
-  function toggleClassName(el, classToToggle) {
+  function toggleClass(el, classToToggle) {
     var className = el.className;
     var classToToggleRegExp = new RegExp('\\b' + classToToggle + '\\b');
     if (className.match(classToToggleRegExp)) {
@@ -58,8 +58,8 @@ window.Dom = (function() {
   var $ = document.querySelector.bind(document);
 
   return {
+    toggleClass: toggleClass,
     replaceChildren: replaceChildren,
-    toggleClassName: toggleClassName,
     el: el,
     $: $
   };

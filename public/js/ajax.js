@@ -39,7 +39,7 @@ window.Ajax = (function() {
     req.send();
   }
 
-  function multiGet(routes, callback) {
+  function parallelGet(routes, callback) {
     var counter = routes.length;
     var responses = [];
     routes.forEach(function(route) {
@@ -68,7 +68,7 @@ window.Ajax = (function() {
 
   return {
     get: get,
-    multiGet: multiGet,
+    parallelGet: parallelGet,
     post: post
   };
 
