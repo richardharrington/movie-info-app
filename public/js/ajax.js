@@ -26,7 +26,9 @@ window.Ajax = (function() {
 
   function jsObjToPostBody(obj) {
     var pairs = Object.keys(obj).map(function(key) {
-      return key + '=' + obj[key];
+      var k = encodeURIComponent(key);
+      var v = encodeURIComponent(obj[key]);
+      return k + '=' + v;
     });
     return pairs.join('&');
   }
