@@ -16,6 +16,25 @@ var displayMap = {
   imdbVotes: "IMDB Votes"
 };
 
+function makeSortObjectsByKey(key) {
+  var comparator = function(a, b) {
+    var valueA = a[key];
+    var valueB = b[key];
+    if (valueA < valueB) {
+      return -1;
+    }
+    if (valueA > valueB) {
+      return 1;
+    }
+    return 0;
+  }
+  return function(arr) {
+    return arr.sort(comparator);
+  }
+}
+
+var sortByTitle = makeSortObjectsByKey('Title');
+
 function searchImdb(searchString, callback) {
   Ajax.get('http://www.omdbapi.com/?type=movie&s=' +
            encodeURIComponent(searchString), callback);
@@ -80,6 +99,7 @@ function movieEl(movie) {
 
 function makeMoviesRenderer(parentEl) {
   return function(movies) {
+    movies = sortByTitle(movies);
     var movieEls = movies.map(movieEl);
     Dom.replaceChildren(parentEl, movieEls);
   }
