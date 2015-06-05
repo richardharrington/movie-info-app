@@ -60,6 +60,7 @@ window.Ajax = (function() {
     req.open('POST', route, true);
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     req.onload = responseHandler(req, function(response) {
+      // Placeholder code for something more substantial
       console.log("Post response successful. response:");
       console.dir(response);
     });
