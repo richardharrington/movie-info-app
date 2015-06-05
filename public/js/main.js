@@ -16,10 +16,6 @@ var displayMap = {
   imdbVotes: "IMDB Votes"
 };
 
-function isImageDownloadFromImdbAllowed() {
-  return location.hostname === 'localhost';
-}
-
 function makeSortObjectsByKey(key) {
   var comparator = function(a, b) {
     var valueA = a[key];
@@ -38,23 +34,6 @@ function makeSortObjectsByKey(key) {
 }
 
 var sortByTitle = makeSortObjectsByKey('Title');
-
-function searchImdb(searchString, callback) {
-  Ajax.get('http://www.omdbapi.com/?type=movie&s=' +
-           encodeURIComponent(searchString), callback);
-}
-
-function fullMovieRoutes(movies) {
-  return movies.map(function(movie) {
-    var oid = movie.oid || movie.imdbID;
-    return 'http://www.omdbapi.com/?i=' + oid;
-  });
-}
-
-function fetchFullMovieRecords(movies, callback) {
-  var routes = fullMovieRoutes(movies);
-  Ajax.parallelGet(routes, callback);
-}
 
 function fetchFavorites(callback) {
   Ajax.get('/favorites', callback);
@@ -85,7 +64,7 @@ function movieEl(movie) {
     return Dom.el('tr', null, [fieldNameEl, fieldContentEl]);
   });
 
-  var areImagesAllowed = isImageDownloadFromImdbAllowed();
+  var areImagesAllowed = Imdb.isImageDownloadAllowed();
 
   var favorite = Dom.el('span', {className: "favorite-query"}, "Favorite?");
   var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title);
@@ -123,9 +102,9 @@ function makeMoviesRenderer(parentEl) {
 
 function launchSearch(textInput, callback) {
   var searchString = textInput.value.trim();
-  searchImdb(searchString, function(response) {
+  Imdb.search(searchString, function(response) {
     var movies = response.Search;
-    fetchFullMovieRecords(movies, callback);
+    Imdb.fetchFullMovieRecords(movies, callback);
   });
 }
 
@@ -149,7 +128,7 @@ function makeItSo() {
 
   fetchFavoritesLink.onclick = function() {
     fetchFavorites(function(movies) {
-      fetchFullMovieRecords(movies, renderMovies);
+      Imdb.fetchFullMovieRecords(movies, renderMovies);
     });
   }
 
