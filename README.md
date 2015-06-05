@@ -5,11 +5,11 @@ An app which fetches movie info from IMDB, and stores favorites.
 Currently a work in progress. Among the issues:
 
 
--- needs some comments
+- needs some comments
 
--- needs to have another version written in React (as an exercise).
+- needs to have another version written in React (as an exercise).
 
--- Event listeners pile up on many nodes. Should be only one, high up, listening for everything. Or at least make it so that it doesn't keep piling up event listeners whose elements have been deleted. This is actually happening now.
+- Event listeners pile up on many nodes. Should be only one, high up, listening for everything. Or at least make it so that it doesn't keep piling up event listeners whose elements have been deleted. This is actually happening now.
 
 - Updating of textNodes needs to be something the DOM library does. Don't use innerHTML.
 
@@ -18,3 +18,5 @@ Currently a work in progress. Among the issues:
 - There needs to be a way to prevent duplicate favorites from being persisted.
 
 - We need to check the list of favorites when we do searches, so that we can mark them in the display if any of the existing favorites happen to also show up in the search display.
+
+- Last but not least, the posters are unfortunately showing up locally but not on Digital Ocean, unless the imdb image urls were already cached from looking at the site locally. Not sure what that's about.
