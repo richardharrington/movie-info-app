@@ -45,7 +45,7 @@ window.Ajax = (function() {
     var counter = routes.length;
     var responses = [];
     routes.forEach(function(route) {
-      Ajax.get(route, function(response) {
+      get(route, function(response) {
         responses.push(response);
         counter--;
         if (counter === 0) {
