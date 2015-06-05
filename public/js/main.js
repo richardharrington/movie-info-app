@@ -11,7 +11,6 @@ var displayMap = {
   Language: "Language",
   Country: "Country",
   Awards: "Awards",
-  // Poster: "Poster",
   Metascore: "Metascore",
   imdbRating: "IMDB Rating",
   imdbVotes: "IMDB Votes"
