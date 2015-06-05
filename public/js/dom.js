@@ -21,7 +21,7 @@ window.Dom = (function() {
 
   function addClass(el, classToAdd) {
     var className = el.className;
-    var classToAddRegExp = boundedWordRegExp(classToToggle);
+    var classToAddRegExp = boundedWordRegExp(classToAdd);
     if (!className.match(classToAddRegExp)) {
       el.className = (className + ' ' + classToAdd).trim();
     }
