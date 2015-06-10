@@ -1,7 +1,7 @@
 {
-  "name": "js-coding-challenge",
+  "name": "movie-info-app",
   "version": "0.0.0",
-  "description": "JS Server for WDI code challenge",
+  "description": "downloads movie info from IMDB and stores list of favorites",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
