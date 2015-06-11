@@ -1,3 +1,5 @@
+var sortBy = require('lodash/collection/sortby');
+
 var Dom = require('./dom');
 var Ajax = require('./ajax');
 var Imdb = require('./imdb');
@@ -19,25 +21,6 @@ var displayMap = {
   imdbRating: "IMDB Rating",
   imdbVotes: "IMDB Votes"
 };
-
-function makeSortObjectsByKey(key) {
-  var comparator = function(a, b) {
-    var valueA = a[key];
-    var valueB = b[key];
-    if (valueA < valueB) {
-      return -1;
-    }
-    if (valueA > valueB) {
-      return 1;
-    }
-    return 0;
-  }
-  return function(arr) {
-    return arr.slice().sort(comparator);
-  }
-}
-
-var sortByTitle = makeSortObjectsByKey('Title');
 
 function fetchFavorites(callback) {
   Ajax.get('/favorites', callback);
@@ -98,7 +81,7 @@ function movieEl(movie) {
 
 function makeMoviesRenderer(parentEl) {
   return function(movies) {
-    movies = sortByTitle(movies);
+    movies = sortBy(movies, 'Title');
     var movieEls = movies.map(movieEl);
     Dom.replaceChildren(parentEl, movieEls);
   }
