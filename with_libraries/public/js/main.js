@@ -105,20 +105,20 @@ function main() {
 
   submitButton.onclick = function() {
     launchSearch(textInput, renderMovies);
-  }
+  };
 
   textInput.onkeypress = function(event) {
     var keyCode = event.which ? event.which : event.keyCode;
     if (keyCode === 13) {
       launchSearch(textInput, renderMovies);
     }
-  }
+  };
 
   fetchFavoritesLink.onclick = function() {
     fetchFavorites(function(movies) {
       Imdb.fetchFullMovieRecords(movies, renderMovies);
     });
-  }
+  };
 }
 
 module.exports = main;
