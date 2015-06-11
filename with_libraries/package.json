@@ -1,0 +1,16 @@
+{
+  "name": "movie-info-app",
+  "version": "0.0.0",
+  "description": "downloads movie info from IMDB and stores list of favorites",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/server.js"
+  },
+  "author": "Richard Harrington",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.2",
+    "body-parser": "^1.12.0"
+  }
+}
