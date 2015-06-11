@@ -68,14 +68,15 @@ function movieEl(movie) {
   movieEl.onclick = function() {
     Dom.toggleClass(movieEl, 'expand');
   }
-  var favoriteEventListener = function(event) {
+
+  favorite.addEventListener('click', function favoriteEventListener(event) {
     event.stopPropagation();
     favorite.innerHTML = "favorited!";
     Dom.addClass(movieEl, 'favorite');
     storeFavorite(movie);
     favorite.removeEventListener('click', favoriteEventListener);
-  };
-  favorite.addEventListener('click', favoriteEventListener, false);
+  }, false);
+
   return movieEl;
 }
 
