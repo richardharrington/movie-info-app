@@ -8,13 +8,11 @@ Next will be adding a few libraries and client-side dependency and package manag
 
 To run locally:
 
-1. cd to the subfolder containing the version you want to run.
+1. `cd` to the subfolder containing the version you want to run.
 
-2. If you're not using the vanillaJS version, you need to run `chmod +x build.sh` and then `build.sh`
+2. `npm start`
 
-3. (All versions) `npm start`
-
-4. Go to `http://localhost:3000` in a browser
+3. Go to `http://localhost:3000` in a browser
 
 ### Issues ###
 
