@@ -84,6 +84,11 @@ const movieEl = (movie) => {
   return movieEl;
 }
 
+// Todo: perhaps add more to this or
+// another factory function, making the
+// renderMovies function not something we
+// have to pass all over the place.
+
 const makeMoviesRenderer = (parentEl) =>
   (movies) => {
     // movies = sortBy(movies, 'Title');
@@ -91,12 +96,21 @@ const makeMoviesRenderer = (parentEl) =>
     Dom.replaceChildren(parentEl, movieEls);
   }
 
-const launchSearch = (textInput, callback) => {
+const searchForMovies = (searchString) =>
+  new Promise((resolve, reject) =>
+    Imdb.search(searchString).then((response) => {
+      const movies = response.Search;
+      resolve(movies);
+    })
+  );
+
+const renderMoviesFromBasicInfo = (moviesBasicInfo, renderMovies) =>
+  Imdb.fetchFullMovieRecords(moviesBasicInfo).then(renderMovies);
+
+const launchSearchAndRender = (textInput, renderMovies) => {
   const searchString = textInput.value.trim();
-  Imdb.search(searchString).then((response) => {
-    const movies = response.Search;
-    Imdb.fetchFullMovieRecords(movies).then(callback);
-  });
+  searchForMovies(searchString).then((movies) =>
+    renderMoviesFromBasicInfo(movies, renderMovies));
 }
 
 const main = () => {
@@ -107,20 +121,18 @@ const main = () => {
     movieList = Dom.$(".movie-list"),
     renderMovies = makeMoviesRenderer(movieList);
 
-  submitButton.onclick = () =>
-    launchSearch(textInput, renderMovies);
+  submitButton.onclick = () => launchSearchAndRender(textInput, renderMovies);
 
   textInput.onkeypress = (event) => {
     const keyCode = event.which ? event.which : event.keyCode;
     if (keyCode === 13) {
-      launchSearch(textInput, renderMovies);
+      launchSearchAndRender(textInput, renderMovies);
     }
   };
 
-  fetchFavoritesLink.onclick = () => {
+  fetchFavoritesLink.onclick = () =>
     fetchFavorites().then((movies) =>
-      Imdb.fetchFullMovieRecords(movies).then(renderMovies));
-  };
+      renderMoviesFromBasicInfo(movies, renderMovies));
 }
 
 export default main;
