@@ -11,11 +11,16 @@ const fetchFullMovieRecords = (movies) => {
   return Ajax.parallelGet(routes);
 }
 
-const search = (searchString) => {
-  var encodedSearchStr = encodeURIComponent(searchString);
-  return Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`);
-}
+const searchForMovies = (searchStr) =>
+  new Promise((resolve, reject) => {
+    var encodedSearchStr = encodeURIComponent(searchStr);
+    Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`)
+      .then((response) => {
+        const movies = response.Search;
+        resolve(movies);
+      });
+  });
 
 const isImageDownloadAllowed = () => (location.hostname === 'localhost');
 
-export default { fetchFullMovieRecords, search, isImageDownloadAllowed };
+export default { fetchFullMovieRecords, searchForMovies, isImageDownloadAllowed };

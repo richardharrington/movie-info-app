@@ -84,14 +84,6 @@ const movieEl = (movie) => {
   return movieEl;
 }
 
-const searchForMovies = (searchString) =>
-  new Promise((resolve, reject) =>
-    Imdb.search(searchString).then((response) => {
-      const movies = response.Search;
-      resolve(movies);
-    })
-  );
-
 const renderMoviesIntoDom = (parentEl, movies) => {
   // movies = sortBy(movies, 'Title');
   const movieEls = movies.map(movieEl);
@@ -111,7 +103,7 @@ const main = () => {
     },
     launchSearchAndRender = () => {
       const searchString = textInput.value.trim();
-      searchForMovies(searchString).then(fetchFullMoviesAndRender);
+      Imdb.searchForMovies(searchString).then(fetchFullMoviesAndRender);
     },
     fetchFavoritesAndRender = () => {
       fetchFavorites().then(fetchFullMoviesAndRender);
@@ -130,4 +122,3 @@ const main = () => {
 }
 
 export default main;
-
