@@ -19,7 +19,7 @@ const responseHandler = (req, callback) =>
     }
   }
 
-const jsObjToPostBody = (obj) => {
+const jsObjToFormBody = (obj) => {
   const pairs = Object.keys(obj).map((key) => {
     const k = encodeURIComponent(key);
     const v = encodeURIComponent(obj[key]);
@@ -28,29 +28,25 @@ const jsObjToPostBody = (obj) => {
   return pairs.join('&');
 }
 
-const get = (route) =>
+const http = (verb, route, data) =>
   new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
-    req.open('GET', route, true);
+    req.open(verb, route, true);
     req.onload = responseHandler(req, resolve);
     req.onerror = reportConnectionError;
-    req.send();
+    if (data) {
+      req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      req.send(jsObjToFormBody(data));
+    }
+    else {
+      req.send();
+    }
   });
+
+const get = (route) => http('GET', route);
+
+const post = (route, data) => http('POST', route, data);
 
 const parallelGet = (routes) => Promise.all(routes.map(get));
-
-const post = (route, data) =>
-  // doesn't quite need to be a promise yet because
-  // we're not doing anything with the results,
-  // but this is for consistency.
-  new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest();
-    req.open('POST', route, true);
-    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    req.onload = responseHandler(req, resolve);
-    req.onerror = reportConnectionError;
-
-    req.send(jsObjToPostBody(data));
-  });
 
 export default { get, parallelGet, post };
