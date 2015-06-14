@@ -1,0 +1,29 @@
+{
+  "name": "jspm_and_es6",
+  "version": "0.0.0",
+  "description": "version of movie app now with jspm, System.js, and es6",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Richard Harrington",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "jspm": "~0.15.7"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "src"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4"
+    }
+  },
+  "dependencies": {
+    "express": "~4.12.4",
+    "body-parser": "~1.12.4"
+  }
+}

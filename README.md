@@ -2,9 +2,9 @@
 
 An app which fetches movie info from IMDB, and stores favorites.
 
-Mainly an example project to try in a few different versions. Currently we have a vanilla JS (ES5) version, and an ES5 version that uses some libraries and package management.
+Mainly an example project to try in a few different versions. Currently we have a vanilla JS (ES5) version, an ES5 version that uses some libraries and npm module loading with browserify, and a version that uses ES6 and uses jspm for package management and System.js for module loading.
 
-Next will be adding a few libraries and client-side dependency and package management. Later we'll try changing to ES6, doing the whole thing with Rails, doing it in Clojure/ClojureScript, etc. I know not all of these things lend themselves to this project, but making the same app over and over again is a good way to learn all the things.
+Later we'll try doing it in React, maybe look at webpack, doing the whole thing with Rails, doing it in Clojure/ClojureScript, etc. I know not all of these things lend themselves to this project, but making the same app over and over again is a good way to learn all the things.
 
 To run locally:
 
