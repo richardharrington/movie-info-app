@@ -80,6 +80,8 @@ const renderMoviesIntoDom = (parentEl, movies) => {
   Dom.replaceChildren(parentEl, movieEls);
 }
 
+const extractSearchStr = (textInput) => textInput.value.trim();
+
 const main = () => {
   const
     submitButton = Dom.$("button[type=submit]"),
@@ -92,8 +94,7 @@ const main = () => {
       Imdb.fetchFullMovieRecords(moviesBasicInfo).then(renderMovies);
     },
     launchSearchAndRender = () => {
-      const searchString = textInput.value.trim();
-      Imdb.searchForMovies(searchString).then(fetchFullMoviesAndRender);
+      Imdb.searchForMovies(extractSearchStr(textInput)).then(fetchFullMoviesAndRender);
     },
     fetchFavoritesAndRender = () => {
       Favorites.fetch().then(fetchFullMoviesAndRender);
