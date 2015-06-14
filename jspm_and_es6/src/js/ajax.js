@@ -1,18 +1,16 @@
-function isRequestSuccessful(req) {
-  return req.status >= 200 && req.status < 400;
-}
+const isRequestSuccessful = (req) => (req.status >= 200 && req.status < 400);
 
-function reportAjaxError(status, errorText) {
+const reportAjaxError = (status, errorText) => {
   console.error("" + status + " error: " + errorText);
 }
 
-function reportConnectionError() {
+const reportConnectionError = () => {
   console.error("Error connecting with the server.");
 }
 
-function responseHandler(req, callback) {
-  return function() {
-    var response = JSON.parse(req.response);
+const responseHandler = (req, callback) =>
+  () => {
+    const response = JSON.parse(req.response);
     if (isRequestSuccessful(req)) {
       callback(response);
     }
@@ -20,30 +18,29 @@ function responseHandler(req, callback) {
       reportAjaxError(req.status, response.error);
     }
   }
-}
 
-function jsObjToPostBody(obj) {
-  var pairs = Object.keys(obj).map(function(key) {
-    var k = encodeURIComponent(key);
-    var v = encodeURIComponent(obj[key]);
-    return k + '=' + v;
+const jsObjToPostBody = (obj) => {
+  const pairs = Object.keys(obj).map((key) => {
+    const k = encodeURIComponent(key);
+    const v = encodeURIComponent(obj[key]);
+    return [k, v].join('=');
   });
   return pairs.join('&');
 }
 
-function get(route, callback) {
-  var req = new XMLHttpRequest();
+const get = (route, callback) => {
+  const req = new XMLHttpRequest();
   req.open('GET', route, true);
   req.onload = responseHandler(req, callback);
   req.onerror = reportConnectionError;
   req.send();
 }
 
-function parallelGet(routes, callback) {
-  var counter = routes.length;
-  var responses = [];
-  routes.forEach(function(route) {
-    get(route, function(response) {
+const parallelGet = (routes, callback) => {
+  let counter = routes.length;
+  let responses = [];
+  routes.forEach((route) => {
+    get(route, (response) => {
       responses.push(response);
       counter--;
       if (counter === 0) {
@@ -53,11 +50,11 @@ function parallelGet(routes, callback) {
   });
 }
 
-function post(route, data, callback) {
-  var req = new XMLHttpRequest();
+const post = (route, data, callback) => {
+  const req = new XMLHttpRequest();
   req.open('POST', route, true);
   req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  req.onload = responseHandler(req, function(response) {
+  req.onload = responseHandler(req, (response) => {
     // Placeholder code for something more substantial
     console.log("Post response successful. response:");
     console.dir(response);

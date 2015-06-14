@@ -1,56 +1,45 @@
-function isString(obj) {
-  return Object.prototype.toString.call(obj) == '[object String]';
-}
+const toString = Object.prototype.toString;
+const isString = (obj) => toString.call(obj) == '[object String]';
 
-function boundedWordRegExp(word) {
-  return new RegExp('\\b' + word + '\\b');
-}
+const boundedWordRegExp = (word) => new RegExp('\\b' + word + '\\b');
 
-function toggleClass(el, classToToggle) {
-  var className = el.className;
-  var classToToggleRegExp = boundedWordRegExp(classToToggle);
-  if (className.match(classToToggleRegExp)) {
+const toggleClass = (el, classToToggle) => {
+  const className = el.className;
+  const classToToggleRegExp = boundedWordRegExp(classToToggle);
+  if (classToToggleRegExp.exec(className)) {
     el.className = className.replace(classToToggleRegExp, '').trim();
   }
   else {
-    el.className = (className + ' ' + classToToggle).trim();
+    el.className = (`${className} ${classToToggle}`).trim();
   }
 }
 
-function addClass(el, classToAdd) {
-  var className = el.className;
-  var classToAddRegExp = boundedWordRegExp(classToAdd);
-  if (!className.match(classToAddRegExp)) {
-    el.className = (className + ' ' + classToAdd).trim();
+const addClass = (el, classToAdd) => {
+  const className = el.className;
+  const classToAddRegExp = boundedWordRegExp(classToAdd);
+  if (!classToAddRegExp.exec(className)) {
+    el.className = (`${className} ${classToAdd}`).trim();
   }
 }
 
-function removeChildren(el) {
+const removeChildren = (el) => {
   while (el.firstChild) {
     el.removeChild(el.firstChild);
   }
 }
 
-function replaceChildren(el, children) {
+const replaceChildren = (el, children) => {
   removeChildren(el);
-  children.forEach(function(child) {
-    el.appendChild(child);
-  });
+  children.forEach((child) => el.appendChild(child));
 }
 
-function makeSureItsANode(elOrText) {
-  if (isString(elOrText)) {
-    return document.createTextNode(elOrText);
-  }
-  else {
-    return elOrText;
-  }
-}
+const makeSureItsANode = (elOrText) =>
+  isString(elOrText) ? document.createTextNode(elOrText) : elOrText;
 
-function el(tagName, attributes, children) {
-  var newEl = document.createElement(tagName);
+const el = (tagName, attributes, children) => {
+  const newEl = document.createElement(tagName);
   if (attributes) {
-    Object.keys(attributes).forEach(function(key) {
+    Object.keys(attributes).forEach((key) => {
       newEl[key] = attributes[key];
     });
   }
@@ -58,7 +47,7 @@ function el(tagName, attributes, children) {
     if (!Array.isArray(children)) {
       children = [children];
     }
-    children.forEach(function(child) {
+    children.forEach((child) => {
       newEl.appendChild(makeSureItsANode(child));
     });
   }

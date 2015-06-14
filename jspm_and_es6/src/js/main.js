@@ -2,7 +2,7 @@ import Dom from 'js/dom';
 import Ajax from 'js/ajax';
 import Imdb from 'js/imdb';
 
-var displayMap = {
+const displayMap = {
   Year: "Year",
   Rated: "Rated",
   Released: "Released",
@@ -20,52 +20,56 @@ var displayMap = {
   imdbVotes: "IMDB Votes"
 };
 
-function fetchFavorites(callback) {
-  Ajax.get('/favorites', callback);
-}
 
-function storeFavorite(movie) {
-  var payload = {
+const fetchFavorites = (callback) => Ajax.get('/favorites', callback);
+
+const storeFavorite = (movie) => {
+  const payload = {
     name: movie.Title,
     oid: movie.imdbID
   };
   Ajax.post('/favorites', payload);
 }
 
-function movieEl(movie) {
-  var fields = Object.keys(movie).filter(function(key) {
-    var isFieldInListOfFieldsToDisplay = !!displayMap[key];
-    return isFieldInListOfFieldsToDisplay && movie[key] !== 'N/A';
-  }).map(function(key) {
-    return {
+const movieComponentsWithPoster = (movieComponentEls, movie, areImagesAllowed) => {
+  const showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A';
+  if (showPoster) {
+    const moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
+    return movieComponentEls.concat(moviePoster);
+  }
+  return movieComponentEls;
+}
+
+const movieEl = (movie) => {
+  const
+    fields = Object.keys(movie).filter((key) => {
+      const isFieldInListOfFieldsToDisplay = !!displayMap[key];
+      return isFieldInListOfFieldsToDisplay && movie[key] !== 'N/A';
+    }).map((key) => ({
       name: displayMap[key],
       content: movie[key]
-    };
-  });
+    })),
 
-  var fieldEls = fields.map(function(field) {
-    var fieldNameEl = Dom.el('td', {className: 'field-name'}, field.name);
-    var fieldContentEl = Dom.el('td', {className: 'field-content'}, field.content);
-    return Dom.el('tr', null, [fieldNameEl, fieldContentEl]);
-  });
+    fieldEls = fields.map((field) => {
+      const fieldNameEl = Dom.el('td', {className: 'field-name'}, field.name);
+      const fieldContentEl = Dom.el('td', {className: 'field-content'}, field.content);
+      return Dom.el('tr', null, [fieldNameEl, fieldContentEl]);
+    }),
 
-  var areImagesAllowed = Imdb.isImageDownloadAllowed();
+    areImagesAllowed = Imdb.isImageDownloadAllowed(),
 
-  var favorite = Dom.el('span', {className: "favorite-query"}, "Favorite?");
-  var movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title);
-  var movieInfo = Dom.el('table', {className: "movie-info"}, fieldEls);
-  var movieComponents = [favorite, movieTitle, movieInfo];
-  var showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A';
-  if (showPoster) {
-    var moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
-    movieComponents = movieComponents.concat(moviePoster);
-  }
-  var movieClassName = areImagesAllowed ? "movie" : "movie wide";
-  var movieEl = Dom.el('li', {className: movieClassName}, movieComponents);
+    favorite = Dom.el('span', {className: "favorite-query"}, "Favorite?"),
+    movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title),
+    movieInfo = Dom.el('table', {className: "movie-info"}, fieldEls),
+    showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A',
+    movieComponentsTextOnly = [favorite, movieTitle, movieInfo],
+    movieComponents = movieComponentsWithPoster(
+      movieComponentsTextOnly, movie, areImagesAllowed
+    ),
+    movieClassName = areImagesAllowed ? "movie" : "movie wide",
+    movieEl = Dom.el('li', {className: movieClassName}, movieComponents);
 
-  movieEl.onclick = function() {
-    Dom.toggleClass(movieEl, 'expand');
-  }
+  movieEl.onclick = () => Dom.toggleClass(movieEl, 'expand');
 
   favorite.addEventListener('click', function favoriteEventListener(event) {
     event.stopPropagation();
@@ -78,44 +82,42 @@ function movieEl(movie) {
   return movieEl;
 }
 
-function makeMoviesRenderer(parentEl) {
-  return function(movies) {
+const makeMoviesRenderer = (parentEl) =>
+  (movies) => {
     // movies = sortBy(movies, 'Title');
-    var movieEls = movies.map(movieEl);
+    const movieEls = movies.map(movieEl);
     Dom.replaceChildren(parentEl, movieEls);
   }
-}
 
-function launchSearch(textInput, callback) {
-  var searchString = textInput.value.trim();
-  Imdb.search(searchString, function(response) {
-    var movies = response.Search;
+const launchSearch = (textInput, callback) => {
+  const searchString = textInput.value.trim();
+  Imdb.search(searchString, (response) => {
+    const movies = response.Search;
     Imdb.fetchFullMovieRecords(movies, callback);
   });
 }
 
-function main() {
-  var submitButton = Dom.$("button[type=submit]");
-  var fetchFavoritesLink = Dom.$(".fetch-favorites");
-  var textInput = Dom.$("input[name=searchBox]");
-  var movieList = Dom.$(".movie-list");
-  var renderMovies = makeMoviesRenderer(movieList);
+const main = () => {
+  const
+    submitButton = Dom.$("button[type=submit]"),
+    fetchFavoritesLink = Dom.$(".fetch-favorites"),
+    textInput = Dom.$("input[name=searchBox]"),
+    movieList = Dom.$(".movie-list"),
+    renderMovies = makeMoviesRenderer(movieList);
 
-  submitButton.onclick = function() {
+  submitButton.onclick = () =>
     launchSearch(textInput, renderMovies);
-  };
 
-  textInput.onkeypress = function(event) {
-    var keyCode = event.which ? event.which : event.keyCode;
+  textInput.onkeypress = (event) => {
+    const keyCode = event.which ? event.which : event.keyCode;
     if (keyCode === 13) {
       launchSearch(textInput, renderMovies);
     }
   };
 
-  fetchFavoritesLink.onclick = function() {
-    fetchFavorites(function(movies) {
-      Imdb.fetchFullMovieRecords(movies, renderMovies);
-    });
+  fetchFavoritesLink.onclick = () => {
+    const fetchFull = (movies) => Imdb.fetchFullMovieRecords(movies, renderMovies);
+    fetchFavorites(fetchFull);
   };
 }
 
