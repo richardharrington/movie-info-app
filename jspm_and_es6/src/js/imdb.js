@@ -6,14 +6,14 @@ const fullMovieRoutes = (movies) =>
     return `http://www.omdbapi.com/?i=${oid}`;
   });
 
-const fetchFullMovieRecords = (movies, callback) => {
+const fetchFullMovieRecords = (movies) => {
   var routes = fullMovieRoutes(movies);
-  Ajax.parallelGet(routes, callback);
+  return Ajax.parallelGet(routes);
 }
 
-const search = (searchString, callback) => {
+const search = (searchString) => {
   var encodedSearchStr = encodeURIComponent(searchString);
-  Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`, callback);
+  return Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`);
 }
 
 const isImageDownloadAllowed = () => (location.hostname === 'localhost');

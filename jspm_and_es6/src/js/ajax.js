@@ -28,40 +28,42 @@ const jsObjToPostBody = (obj) => {
   return pairs.join('&');
 }
 
-const get = (route, callback) => {
-  const req = new XMLHttpRequest();
-  req.open('GET', route, true);
-  req.onload = responseHandler(req, callback);
-  req.onerror = reportConnectionError;
-  req.send();
-}
+const get = (route) =>
+  new Promise((resolve, reject) => {
+    const req = new XMLHttpRequest();
+    req.open('GET', route, true);
+    req.onload = responseHandler(req, resolve);
+    req.onerror = reportConnectionError;
+    req.send();
+  });
 
-const parallelGet = (routes, callback) => {
-  let counter = routes.length;
-  let responses = [];
-  routes.forEach((route) => {
-    get(route, (response) => {
-      responses.push(response);
-      counter--;
-      if (counter === 0) {
-        callback(responses);
-      }
+const parallelGet = (routes) =>
+  new Promise((resolve, reject) => {
+    let counter = routes.length;
+    let responses = [];
+    routes.forEach((route) => {
+      get(route).then((response) => {
+        responses.push(response);
+        counter--;
+        if (counter === 0) {
+          resolve(responses);
+        }
+      });
     });
   });
-}
 
-const post = (route, data, callback) => {
-  const req = new XMLHttpRequest();
-  req.open('POST', route, true);
-  req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  req.onload = responseHandler(req, (response) => {
-    // Placeholder code for something more substantial
-    console.log("Post response successful. response:");
-    console.dir(response);
+const post = (route, data) =>
+  // doesn't quite need to be a promise yet because
+  // we're not doing anything with the results,
+  // but this is for consistency.
+  new Promise((resolve, reject) => {
+    const req = new XMLHttpRequest();
+    req.open('POST', route, true);
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    req.onload = responseHandler(req, resolve);
+    req.onerror = reportConnectionError;
+
+    req.send(jsObjToPostBody(data));
   });
-  req.onerror = reportConnectionError;
-
-  req.send(jsObjToPostBody(data));
-}
 
 export default { get, parallelGet, post };

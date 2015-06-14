@@ -21,14 +21,14 @@ const displayMap = {
 };
 
 
-const fetchFavorites = (callback) => Ajax.get('/favorites', callback);
+const fetchFavorites = () => Ajax.get('/favorites');
 
 const storeFavorite = (movie) => {
   const payload = {
     name: movie.Title,
     oid: movie.imdbID
   };
-  Ajax.post('/favorites', payload);
+  return Ajax.post('/favorites', payload);
 }
 
 const movieComponentsWithPoster = (movieComponentEls, movie, areImagesAllowed) => {
@@ -75,7 +75,9 @@ const movieEl = (movie) => {
     event.stopPropagation();
     favorite.innerHTML = "favorited!";
     Dom.addClass(movieEl, 'favorite');
-    storeFavorite(movie);
+    storeFavorite(movie).then(() =>
+      console.log("Congratulations, you've posted a favorite! (We'll do something more meaningful here in the future.)")
+    );
     favorite.removeEventListener('click', favoriteEventListener);
   }, false);
 
@@ -91,9 +93,9 @@ const makeMoviesRenderer = (parentEl) =>
 
 const launchSearch = (textInput, callback) => {
   const searchString = textInput.value.trim();
-  Imdb.search(searchString, (response) => {
+  Imdb.search(searchString).then((response) => {
     const movies = response.Search;
-    Imdb.fetchFullMovieRecords(movies, callback);
+    Imdb.fetchFullMovieRecords(movies).then(callback);
   });
 }
 
@@ -116,8 +118,8 @@ const main = () => {
   };
 
   fetchFavoritesLink.onclick = () => {
-    const fetchFull = (movies) => Imdb.fetchFullMovieRecords(movies, renderMovies);
-    fetchFavorites(fetchFull);
+    fetchFavorites().then((movies) =>
+      Imdb.fetchFullMovieRecords(movies).then(renderMovies));
   };
 }
 
