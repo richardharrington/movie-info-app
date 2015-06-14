@@ -1,4 +1,4 @@
-## WDI Instructor Code Challenge
+## Movie Info
 
 An app which fetches movie info from IMDB, and stores favorites.
 
