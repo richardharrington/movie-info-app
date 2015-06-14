@@ -1,6 +1,7 @@
 import Dom from 'js/dom';
 import Ajax from 'js/ajax';
 import Imdb from 'js/imdb';
+import Favorites from 'js/favorites';
 
 const displayMap = {
   Year: "Year",
@@ -19,17 +20,6 @@ const displayMap = {
   imdbRating: "IMDB Rating",
   imdbVotes: "IMDB Votes"
 };
-
-
-const fetchFavorites = () => Ajax.get('/favorites');
-
-const storeFavorite = (movie) => {
-  const payload = {
-    name: movie.Title,
-    oid: movie.imdbID
-  };
-  return Ajax.post('/favorites', payload);
-}
 
 const movieComponentsWithPoster = (movieComponentEls, movie, areImagesAllowed) => {
   const showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A';
@@ -75,7 +65,7 @@ const movieEl = (movie) => {
     event.stopPropagation();
     favorite.innerHTML = "favorited!";
     Dom.addClass(movieEl, 'favorite');
-    storeFavorite(movie).then(() =>
+    Favorites.store(movie).then(() =>
       console.log("Congratulations, you've posted a favorite! (We'll do something more meaningful here in the future.)")
     );
     favorite.removeEventListener('click', favoriteEventListener);
@@ -106,7 +96,7 @@ const main = () => {
       Imdb.searchForMovies(searchString).then(fetchFullMoviesAndRender);
     },
     fetchFavoritesAndRender = () => {
-      fetchFavorites().then(fetchFullMoviesAndRender);
+      Favorites.fetch().then(fetchFullMoviesAndRender);
     };
 
   submitButton.onclick = launchSearchAndRender;
