@@ -84,18 +84,6 @@ const movieEl = (movie) => {
   return movieEl;
 }
 
-// Todo: perhaps add more to this or
-// another factory function, making the
-// renderMovies function not something we
-// have to pass all over the place.
-
-const makeMoviesRenderer = (parentEl) =>
-  (movies) => {
-    // movies = sortBy(movies, 'Title');
-    const movieEls = movies.map(movieEl);
-    Dom.replaceChildren(parentEl, movieEls);
-  }
-
 const searchForMovies = (searchString) =>
   new Promise((resolve, reject) =>
     Imdb.search(searchString).then((response) => {
@@ -104,13 +92,10 @@ const searchForMovies = (searchString) =>
     })
   );
 
-const renderMoviesFromBasicInfo = (moviesBasicInfo, renderMovies) =>
-  Imdb.fetchFullMovieRecords(moviesBasicInfo).then(renderMovies);
-
-const launchSearchAndRender = (textInput, renderMovies) => {
-  const searchString = textInput.value.trim();
-  searchForMovies(searchString).then((movies) =>
-    renderMoviesFromBasicInfo(movies, renderMovies));
+const renderMoviesIntoDom = (parentEl, movies) => {
+  // movies = sortBy(movies, 'Title');
+  const movieEls = movies.map(movieEl);
+  Dom.replaceChildren(parentEl, movieEls);
 }
 
 const main = () => {
@@ -119,20 +104,29 @@ const main = () => {
     fetchFavoritesLink = Dom.$(".fetch-favorites"),
     textInput = Dom.$("input[name=searchBox]"),
     movieList = Dom.$(".movie-list"),
-    renderMovies = makeMoviesRenderer(movieList);
 
-  submitButton.onclick = () => launchSearchAndRender(textInput, renderMovies);
+    renderMovies = renderMoviesIntoDom.bind(null, movieList),
+    fetchFullMoviesAndRender = (moviesBasicInfo) => {
+      Imdb.fetchFullMovieRecords(moviesBasicInfo).then(renderMovies);
+    },
+    launchSearchAndRender = () => {
+      const searchString = textInput.value.trim();
+      searchForMovies(searchString).then(fetchFullMoviesAndRender);
+    },
+    fetchFavoritesAndRender = () => {
+      fetchFavorites().then(fetchFullMoviesAndRender);
+    };
+
+  submitButton.onclick = launchSearchAndRender;
 
   textInput.onkeypress = (event) => {
     const keyCode = event.which ? event.which : event.keyCode;
     if (keyCode === 13) {
-      launchSearchAndRender(textInput, renderMovies);
+      launchSearchAndRender();
     }
   };
 
-  fetchFavoritesLink.onclick = () =>
-    fetchFavorites().then((movies) =>
-      renderMoviesFromBasicInfo(movies, renderMovies));
+  fetchFavoritesLink.onclick = fetchFavoritesAndRender;
 }
 
 export default main;
