@@ -33,24 +33,18 @@ const replaceChildren = (el, children) => {
   children.forEach((child) => el.appendChild(child));
 }
 
-const makeSureItsANode = (elOrText) =>
+const makeSureItsANodeNotAString = (elOrText) =>
   isString(elOrText) ? document.createTextNode(elOrText) : elOrText;
 
-const el = (tagName, attributes, children) => {
+const el = (tagName, attributes, ...children) => {
   const newEl = document.createElement(tagName);
   if (attributes) {
-    Object.keys(attributes).forEach((key) => {
-      newEl[key] = attributes[key];
-    });
+    Object.assign(newEl, attributes);
   }
-  if (children) {
-    if (!Array.isArray(children)) {
-      children = [children];
-    }
-    children.forEach((child) => {
-      newEl.appendChild(makeSureItsANode(child));
-    });
-  }
+  children.forEach((child) => {
+    const node = makeSureItsANodeNotAString(child);
+    newEl.appendChild(node);
+  });
   return newEl;
 }
 

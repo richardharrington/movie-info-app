@@ -53,21 +53,21 @@ const movieEl = (movie) => {
     fieldEls = fields.map((field) => {
       const fieldNameEl = Dom.el('td', {className: 'field-name'}, field.name);
       const fieldContentEl = Dom.el('td', {className: 'field-content'}, field.content);
-      return Dom.el('tr', null, [fieldNameEl, fieldContentEl]);
+      return Dom.el('tr', null, fieldNameEl, fieldContentEl);
     }),
 
     areImagesAllowed = Imdb.isImageDownloadAllowed(),
 
     favorite = Dom.el('span', {className: "favorite-query"}, "Favorite?"),
     movieTitle = Dom.el('h3', {className: "movie-title"}, movie.Title),
-    movieInfo = Dom.el('table', {className: "movie-info"}, fieldEls),
+    movieInfo = Dom.el('table', {className: "movie-info"}, ...fieldEls),
     showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A',
     movieComponentsTextOnly = [favorite, movieTitle, movieInfo],
     movieComponents = movieComponentsWithPoster(
       movieComponentsTextOnly, movie, areImagesAllowed
     ),
     movieClassName = areImagesAllowed ? "movie" : "movie wide",
-    movieEl = Dom.el('li', {className: movieClassName}, movieComponents);
+    movieEl = Dom.el('li', {className: movieClassName}, ...movieComponents);
 
   movieEl.onclick = () => Dom.toggleClass(movieEl, 'expand');
 
