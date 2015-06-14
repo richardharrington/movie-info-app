@@ -49,4 +49,4 @@ const post = (route, data) => http('POST', route, data);
 
 const parallelGet = (routes) => Promise.all(routes.map(get));
 
-export default { get, parallelGet, post };
+export default { get, post, parallelGet };
