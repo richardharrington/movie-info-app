@@ -37,20 +37,7 @@ const get = (route) =>
     req.send();
   });
 
-const parallelGet = (routes) =>
-  new Promise((resolve, reject) => {
-    let counter = routes.length;
-    let responses = [];
-    routes.forEach((route) => {
-      get(route).then((response) => {
-        responses.push(response);
-        counter--;
-        if (counter === 0) {
-          resolve(responses);
-        }
-      });
-    });
-  });
+const parallelGet = (routes) => Promise.all(routes.map(get));
 
 const post = (route, data) =>
   // doesn't quite need to be a promise yet because
