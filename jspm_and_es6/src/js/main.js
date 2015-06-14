@@ -21,7 +21,7 @@ const displayMap = {
   imdbVotes: "IMDB Votes"
 };
 
-const movieComponentsWithPoster = (movieComponentEls, movie, areImagesAllowed) => {
+const movieComponentsMaybeWithPoster = (movieComponentEls, movie, areImagesAllowed) => {
   const showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A';
   if (showPoster) {
     const moviePoster = Dom.el('img', {src: movie.Poster, className: 'movie-poster'});
@@ -53,7 +53,7 @@ const movieEl = (movie) => {
     movieInfo = Dom.el('table', {className: "movie-info"}, ...fieldEls),
     showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A',
     movieComponentsTextOnly = [favorite, movieTitle, movieInfo],
-    movieComponents = movieComponentsWithPoster(
+    movieComponents = movieComponentsMaybeWithPoster(
       movieComponentsTextOnly, movie, areImagesAllowed
     ),
     movieClassName = areImagesAllowed ? "movie" : "movie wide",
