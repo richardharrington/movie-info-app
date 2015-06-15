@@ -43,10 +43,8 @@ const http = (verb, route, data) =>
     }
   });
 
-const get = route => http('GET', route);
-
-const post = (route, data) => http('POST', route, data);
-
+const get = http.bind(null, 'GET');
+const post = http.bind(null, 'POST');
 const parallelGet = routes => Promise.all(routes.map(get));
 
 export default { get, post, parallelGet };
