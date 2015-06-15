@@ -3,6 +3,8 @@ import Ajax from 'js/ajax';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
 
+import sortBy from 'lodash/collection/sortBy';
+
 const displayMap = {
   Year: "Year",
   Rated: "Rated",
@@ -75,7 +77,7 @@ const movieEl = (movie) => {
 }
 
 const renderMoviesIntoDom = (parentEl, movies) => {
-  // movies = sortBy(movies, 'Title');
+  movies = sortBy(movies, 'Title');
   const movieEls = movies.map(movieEl);
   Dom.replaceChildren(parentEl, movieEls);
 }

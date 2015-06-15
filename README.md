@@ -10,6 +10,12 @@ To run locally:
 
 1. `cd` to the subfolder containing the version you want to run.
 
+2. `npm install`
+
+3. `jspm install` (if you're in one of the versions that uses jspm)
+
+3a. Special instructions before step 3, temporarily until we make a change to the jspm library: remove the top-level npm dependencies from package.json before running jspm install, then restore them after it runs. Will prevent an error from being thrown.
+
 2. `npm start`
 
 3. Go to `http://localhost:3000` in a browser
@@ -18,8 +24,6 @@ To run locally:
 
 It's currently a work in progress. Among the issues:
 
-
-- needs some comments
 
 - Event listeners pile up on many nodes. Should be only one, high up, listening for everything. Or at least make it so that it doesn't keep piling up event listeners whose elements have been deleted. This is actually happening now.
 
