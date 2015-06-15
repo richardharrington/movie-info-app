@@ -1,7 +1,7 @@
 const toString = Object.prototype.toString;
-const isString = obj => toString.call(obj) == '[object String]';
+const isString = obj => toString.call(obj) === '[object String]';
 
-const boundedWordRegExp = word => new RegExp('\\b' + word + '\\b');
+const boundedWordRegExp = word => new RegExp(`\\b${word}\\b`);
 
 const toggleClass = (el, classToToggle) => {
   const className = el.className;
