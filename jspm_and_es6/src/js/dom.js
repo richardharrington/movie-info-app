@@ -1,7 +1,7 @@
 const toString = Object.prototype.toString;
-const isString = (obj) => toString.call(obj) == '[object String]';
+const isString = obj => toString.call(obj) == '[object String]';
 
-const boundedWordRegExp = (word) => new RegExp('\\b' + word + '\\b');
+const boundedWordRegExp = word => new RegExp('\\b' + word + '\\b');
 
 const toggleClass = (el, classToToggle) => {
   const className = el.className;
@@ -22,7 +22,7 @@ const addClass = (el, classToAdd) => {
   }
 }
 
-const removeChildren = (el) => {
+const removeChildren = el => {
   while (el.firstChild) {
     el.removeChild(el.firstChild);
   }
@@ -33,7 +33,7 @@ const replaceChildren = (el, children) => {
   children.forEach((child) => el.appendChild(child));
 }
 
-const makeSureItsANodeNotAString = (elOrText) =>
+const makeSureItsANodeNotAString = elOrText =>
   isString(elOrText) ? document.createTextNode(elOrText) : elOrText;
 
 const el = (tagName, attributes, ...children) => {
@@ -41,7 +41,7 @@ const el = (tagName, attributes, ...children) => {
   if (attributes) {
     Object.assign(newEl, attributes);
   }
-  children.forEach((child) => {
+  children.forEach(child => {
     const node = makeSureItsANodeNotAString(child);
     newEl.appendChild(node);
   });

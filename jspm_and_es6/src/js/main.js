@@ -32,9 +32,9 @@ const movieComponentsMaybeWithPoster = (movieComponentEls, movie, areImagesAllow
   return movieComponentEls;
 }
 
-const movieEl = (movie) => {
+const movieEl = movie => {
   const
-    fields = Object.keys(movie).filter((key) => {
+    fields = Object.keys(movie).filter(key => {
       const isFieldInListOfFieldsToDisplay = !!displayMap[key];
       return isFieldInListOfFieldsToDisplay && movie[key] !== 'N/A';
     }).map((key) => ({
@@ -42,7 +42,7 @@ const movieEl = (movie) => {
       content: movie[key]
     })),
 
-    fieldEls = fields.map((field) => {
+    fieldEls = fields.map(field => {
       const fieldNameEl = Dom.el('td', {className: 'field-name'}, field.name);
       const fieldContentEl = Dom.el('td', {className: 'field-content'}, field.content);
       return Dom.el('tr', null, fieldNameEl, fieldContentEl);
@@ -82,7 +82,7 @@ const renderMoviesIntoDom = (parentEl, movies) => {
   Dom.replaceChildren(parentEl, movieEls);
 }
 
-const extractSearchStr = (textInput) => textInput.value.trim();
+const extractSearchStr = textInput => textInput.value.trim();
 
 const main = () => {
   const
@@ -104,7 +104,7 @@ const main = () => {
 
   submitButton.onclick = launchSearchAndRender;
 
-  textInput.onkeypress = (event) => {
+  textInput.onkeypress = event => {
     const keyCode = event.which ? event.which : event.keyCode;
     if (keyCode === 13) {
       launchSearchAndRender();

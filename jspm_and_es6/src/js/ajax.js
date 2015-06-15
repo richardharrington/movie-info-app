@@ -1,4 +1,4 @@
-const isRequestSuccessful = (req) => (req.status >= 200 && req.status < 400);
+const isRequestSuccessful = req => req.status >= 200 && req.status < 400;
 
 const reportAjaxError = (status, errorText) => {
   console.error("" + status + " error: " + errorText);
@@ -19,8 +19,8 @@ const responseHandler = (req, callback) =>
     }
   }
 
-const jsObjToFormBody = (obj) => {
-  const pairs = Object.keys(obj).map((key) => {
+const jsObjToFormBody = obj => {
+  const pairs = Object.keys(obj).map(key => {
     const k = encodeURIComponent(key);
     const v = encodeURIComponent(obj[key]);
     return [k, v].join('=');
@@ -29,7 +29,7 @@ const jsObjToFormBody = (obj) => {
 }
 
 const http = (verb, route, data) =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     const req = new XMLHttpRequest();
     req.open(verb, route, true);
     req.onload = responseHandler(req, resolve);
@@ -43,10 +43,10 @@ const http = (verb, route, data) =>
     }
   });
 
-const get = (route) => http('GET', route);
+const get = route => http('GET', route);
 
 const post = (route, data) => http('POST', route, data);
 
-const parallelGet = (routes) => Promise.all(routes.map(get));
+const parallelGet = routes => Promise.all(routes.map(get));
 
 export default { get, post, parallelGet };
