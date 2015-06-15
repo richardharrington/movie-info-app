@@ -1,5 +1,4 @@
 import Dom from 'js/dom';
-import Ajax from 'js/ajax';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
 
