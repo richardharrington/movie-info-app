@@ -10,7 +10,9 @@
   "author": "Richard Harrington",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "jspm": "~0.15.7"
+    "jspm": "~0.15.7",
+    "gulp": "~3.9.0",
+    "gulp-sass": "~2.0.1"
   },
   "jspm": {
     "directories": {

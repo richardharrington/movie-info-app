@@ -1,0 +1,114 @@
+body
+  background-color: #eacf96
+  margin-left: 30px
+  margin-top: 10px
+  font-family: Verdana, sans-serif, serif
+
+ul, li
+  list-style-type: none
+  margin: 0
+  padding: 0
+
+input
+  height: 40px
+  width: 300px
+  padding-left: 10px
+  font-size: 1em
+
+button
+  position: relative
+  top: 2px
+  margin-left: 10px
+  width: 70px
+  height: 42px
+  border-radius: 10px
+  background-color: #bbb
+  cursor: pointer
+  font-size: 1.5em
+  &:hover
+    background-color: #eee
+
+.fetch-favorites
+  cursor: pointer
+  font-size: 0.9em
+  margin-left: 3px
+  &:hover
+    color: #777
+
+.movie-list
+  margin-top: 20px
+
+.movie
+  cursor: pointer
+  width: 800px
+  margin-bottom: 5px
+  padding: 0 20px
+  position: relative
+  -webkit-transition: all .25s ease
+  transition: all .25s ease
+
+  .favorite-query
+    display: inline-block
+    font-size: 0.7em
+    margin-right: 10px
+    -webkit-transition: all .25s ease
+    transition: all .25s ease
+    &:hover
+      color: #777
+
+  .movie-title
+    display: inline-block
+    margin: 0 0 0 10px
+    font-weight: normal
+    font-size: 0.8em
+    -webkit-transition: all .25s ease
+    transition: all .25s ease
+
+  .movie-info
+    display: none
+    width: 700px
+    border-spacing: 20px 10px
+    border-collapse: separate
+    td
+      vertical-align: top
+      &.field-name
+        text-align: right
+        width: 110px
+
+  .movie-poster
+    width: 200px
+    position: absolute
+    top: 70px
+    left: 590px
+    opacity: 0
+    -webkit-transition: all .25s ease
+    transition: all .25s ease
+
+  &.expand
+    margin-bottom: 20px
+    margin-top: 10px
+    padding-top: 20px
+    padding-bottom: 20px
+    background-color: #f2e5c9
+    .favorite-query
+      font-size: 0.9em
+    .movie-title
+      margin-top: 5px
+      margin-bottom: 10px
+      font-size: 1.3em
+    .movie-info
+      display: block
+    .movie-poster
+      opacity: 1
+
+  &.favorite
+    .favorite-query
+      margin-right: 7px
+      &:hover
+        color: #000
+    .movie-title
+      font-weight: bold
+
+  &.show-poster
+    .movie-info
+      width: 500px
