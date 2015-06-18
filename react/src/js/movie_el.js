@@ -27,7 +27,7 @@ const displayMap = {
 const {div, ul, li, table, tbody, tr, td, span, h3, img} = React.DOM;
 const el = React.createElement;
 
-const FieldEl = React.createClass({
+const Field = React.createClass({
   render: function() {
     return tr(null,
              td({className: "field-name"}, this.props.name),
@@ -36,7 +36,7 @@ const FieldEl = React.createClass({
   }
 });
 
-const FavoriteEl = React.createClass({
+const Favorite = React.createClass({
   getInitialState: function() {
     return { isFavorited: false };
   },
@@ -55,13 +55,13 @@ const FavoriteEl = React.createClass({
   }
 });
 
-const MovieTitleEl = React.createClass({
+const MovieTitle = React.createClass({
   render: function() {
     return h3({className: "movie-title"}, this.props.title);
   }
 });
 
-const MovieInfoEl = React.createClass({
+const MovieInfo = React.createClass({
   render: function() {
     const movie = this.props.movie;
     const fields = Object.keys(movie).filter(key => {
@@ -74,20 +74,20 @@ const MovieInfoEl = React.createClass({
 
     return table({className: "movie-info"},
              tbody(null,
-               fields.map(field => el(FieldEl, field))
+               fields.map(field => el(Field, field))
              )
            );
   }
 
 });
 
-const MoviePosterEl = React.createClass({
+const MoviePoster = React.createClass({
   render: function() {
     return img({className: "movie-poster", src: this.props.url});
   }
 });
 
-const MovieEl = React.createClass({
+const Movie = React.createClass({
   getInitialState: function() {
     return { isExpanded: false };
   },
@@ -105,10 +105,10 @@ const MovieEl = React.createClass({
     const showPoster = this.showPoster();
 
     const movieComponents = [
-      el(FavoriteEl, {movie}),
-      el(MovieTitleEl, {title: movie.Title}),
-      el(MovieInfoEl, {movie})
-    ].concat(showPoster ? [el(MoviePosterEl, {url: movie.Poster})] : []);
+      el(Favorite, {movie}),
+      el(MovieTitle, {title: movie.Title}),
+      el(MovieInfo, {movie})
+    ].concat(showPoster ? [el(MoviePoster, {url: movie.Poster})] : []);
 
     const movieClassName = "movie" +
                            (showPoster ? " show-poster" : "") +
@@ -119,4 +119,4 @@ const MovieEl = React.createClass({
   }
 });
 
-export default MovieEl;
+export default Movie;
