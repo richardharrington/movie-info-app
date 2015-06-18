@@ -2,8 +2,6 @@ import Dom from 'js/dom';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
 
-import keygen from 'js/keygen';
-
 import React from 'react';
 
 var {Component} = React;
@@ -71,8 +69,7 @@ const MovieInfoEl = React.createClass({
       return isFieldInListOfFieldsToDisplay && movie[key] !== 'N/A';
     }).map((key) => ({
       name: displayMap[key],
-      content: movie[key],
-      key: keygen()
+      content: movie[key]
     }));
 
     return table({className: "movie-info"},

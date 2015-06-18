@@ -2,7 +2,6 @@ import Dom from 'js/dom';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
 import MovieEl from 'js/movie_el';
-import keygen from 'js/keygen';
 
 import React from 'react';
 
@@ -25,7 +24,7 @@ const renderMovies = movies => {
   const postersEnabled = Imdb.isImageDownloadEnabled();
 
   const movieEls = sortedMovies.map(movie =>
-    React.createElement(MovieEl, {movie, postersEnabled, key: keygen()}));
+    React.createElement(Movie, { movie, postersEnabled }));
 
   Dom.removeChildren(movieList);
   React.render(React.DOM.div(null, movieEls), movieList);
