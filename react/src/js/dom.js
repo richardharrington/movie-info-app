@@ -50,4 +50,4 @@ const el = (tagName, attributes, ...children) => {
 
 var $ = document.querySelector.bind(document);
 
-export default { toggleClass, addClass, replaceChildren, el, $ };
+export default { toggleClass, addClass, removeChildren, replaceChildren, el, $ };

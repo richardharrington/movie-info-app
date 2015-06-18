@@ -1,7 +1,10 @@
 import Dom from 'js/dom';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
-import movieEl from 'js/movie_el';
+import MovieEl from 'js/movie_el';
+import keygen from 'js/keygen';
+
+import React from 'react';
 
 import sortBy from 'lodash/collection/sortBy';
 
@@ -19,8 +22,9 @@ const isEnterPressed = event => {
 
 const renderMovies = movies => {
   movies = sortBy(movies, 'Title');
-  const movieEls = movies.map(movieEl);
-  Dom.replaceChildren(movieList, movieEls);
+  const movieEls = movies.map(movie => React.createElement(MovieEl, {movie, key: keygen()}));
+  Dom.removeChildren(movieList);
+  React.render(React.DOM.div(null, movieEls), movieList);
 };
 
 const fetchFullMoviesAndRender = moviesBasicInfo => {
