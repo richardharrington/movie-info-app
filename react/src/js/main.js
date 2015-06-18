@@ -13,6 +13,11 @@ const fetchFavoritesLink = Dom.$(".fetch-favorites");
 const textInput = Dom.$("input[name=searchBox]");
 const movieList = Dom.$(".movie-list");
 
+// temporary until we bring movieList into the React fold.
+if (Imdb.isImageDownloadBlocked()) {
+  Dom.addClass(movieList, 'posters-disabled');
+}
+
 const extractSearchStr = textInput => textInput.value.trim();
 
 const isEnterPressed = event => {
@@ -21,8 +26,12 @@ const isEnterPressed = event => {
 }
 
 const renderMovies = movies => {
-  movies = sortBy(movies, 'Title');
-  const movieEls = movies.map(movie => React.createElement(MovieEl, {movie, key: keygen()}));
+  const sortedMovies = sortBy(movies, 'Title');
+  const postersDisabled = Imdb.isImageDownloadBlocked();
+
+  const movieEls = sortedMovies.map(movie =>
+    React.createElement(MovieEl, {movie, postersDisabled, key: keygen()}));
+
   Dom.removeChildren(movieList);
   React.render(React.DOM.div(null, movieEls), movieList);
 };

@@ -120,7 +120,7 @@ button:hover {
   border-collapse: separate;
 }
 
-.movie.wide table.movie-info {
+.movie-list.posters-disabled table.movie-info {
   width: 700px;
 }
 
@@ -138,6 +138,7 @@ button:hover {
 }
 
 .movie .movie-poster {
+  display: none;
   width: 200px;
   position: absolute;
   top: 70px;
@@ -145,6 +146,10 @@ button:hover {
   opacity: 0;
   -webkit-transition: all .25s ease;
   transition: all .25s ease;
+}
+
+.movie.show-poster .movie-poster {
+  display: block;
 }
 
 .movie.expand .movie-poster {

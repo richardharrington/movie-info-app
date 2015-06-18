@@ -90,15 +90,6 @@ const MoviePosterEl = React.createClass({
   }
 });
 
-const movieComponentsMaybeWithPoster = (movieComponentEls, movie, areImagesAllowed) => {
-  const showPoster = areImagesAllowed && movie.Poster && movie.Poster !== 'N/A';
-  if (showPoster) {
-    var moviePosterEl = el(MoviePosterEl, {url: movie.Poster});
-    return movieComponentEls.concat(moviePosterEl);
-  }
-  return movieComponentEls;
-}
-
 const MovieEl = React.createClass({
   getInitialState: function() {
     return { isExpanded: false };
@@ -106,17 +97,23 @@ const MovieEl = React.createClass({
   handleClick: function() {
     this.setState({isExpanded: !this.state.isExpanded});
   },
+  showPoster: function() {
+    var { movie, postersDisabled } = this.props;
+    return !postersDisabled && movie.Poster && movie.Poster !== 'N/A';
+  },
   render: function() {
     const { movie } = this.props;
-    const areImagesAllowed = Imdb.isImageDownloadAllowed();
+    const { isExpanded } = this.state;
 
-    const movieComponentsTextOnly = [
+    const movieComponents = [
       el(FavoriteEl, {movie}),
       el(MovieTitleEl, {title: movie.Title}),
-      el(MovieInfoEl, {movie})
+      el(MovieInfoEl, {movie}),
+      el(MoviePosterEl, {url: movie.Poster})
     ];
-    const movieComponents = movieComponentsMaybeWithPoster(movieComponentsTextOnly, movie, areImagesAllowed);
-    const movieClassName = "movie" + (areImagesAllowed ? "" : " wide") + (this.state.isExpanded ? " expand" : "");
+    const movieClassName = "movie" +
+                           (this.showPoster() ? " show-poster" : "") +
+                           (isExpanded ? " expand" : "");
 
     return li({className: movieClassName, onClick: this.handleClick}, movieComponents);
 

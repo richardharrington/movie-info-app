@@ -21,6 +21,6 @@ const searchForMovies = searchStr =>
       });
   });
 
-const isImageDownloadAllowed = () => (location.hostname === 'localhost');
+const isImageDownloadBlocked = () => (location.hostname !== 'localhost');
 
-export default { fetchFullMovieRecords, searchForMovies, isImageDownloadAllowed };
+export default { fetchFullMovieRecords, searchForMovies, isImageDownloadBlocked };
