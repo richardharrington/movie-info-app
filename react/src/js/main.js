@@ -1,7 +1,7 @@
 import Dom from 'js/dom';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
-import Movie from 'js/movie_el';
+import Movie from 'js/components/Movie';
 
 import React from 'react';
 
