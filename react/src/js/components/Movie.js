@@ -22,7 +22,6 @@ const Movie = React.createClass({
     Favorites.store(movie).then(() =>
       console.log("Congratulations, you've posted a favorite! (We'll do something more meaningful here in the future.)")
     );
-    event.target.removeEventListener('click', this.handleFavoriteClick);
   },
 
   showPoster: function() {
@@ -34,9 +33,10 @@ const Movie = React.createClass({
     const { movie } = this.props;
     const { isExpanded, isFavorited } = this.state;
     const showPoster = this.showPoster();
+    const handleFavoriteClick = isFavorited ? null : this.handleFavoriteClick;
 
     const movieComponents = [
-      React.createElement(MovieFavorite, {isFavorited, handleFavoriteClick: this.handleFavoriteClick}),
+      React.createElement(MovieFavorite, {isFavorited, handleFavoriteClick}),
       React.createElement(MovieTitle, {title: movie.Title}),
       React.createElement(MovieInfo, {movie})
     ].concat(showPoster ? [React.createElement(MoviePoster, {url: movie.Poster})] : []);
