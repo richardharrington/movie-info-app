@@ -115,13 +115,13 @@ button:hover {
 
 .movie table.movie-info {
   display: none;
-  width: 500px;
+  width: 700px;
   border-spacing: 20px 10px;
   border-collapse: separate;
 }
 
-.movie-list.posters-disabled table.movie-info {
-  width: 700px;
+.movie.show-poster table.movie-info {
+  width: 500px;
 }
 
 .movie.expand table.movie-info {
@@ -138,7 +138,6 @@ button:hover {
 }
 
 .movie .movie-poster {
-  display: none;
   width: 200px;
   position: absolute;
   top: 70px;
@@ -146,10 +145,6 @@ button:hover {
   opacity: 0;
   -webkit-transition: all .25s ease;
   transition: all .25s ease;
-}
-
-.movie.show-poster .movie-poster {
-  display: block;
 }
 
 .movie.expand .movie-poster {

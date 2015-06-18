@@ -98,21 +98,23 @@ const MovieEl = React.createClass({
     this.setState({isExpanded: !this.state.isExpanded});
   },
   showPoster: function() {
-    var { movie, postersDisabled } = this.props;
-    return !postersDisabled && movie.Poster && movie.Poster !== 'N/A';
+    const { movie, postersEnabled } = this.props;
+    if (movie.Poster === 'N/A') console.log('N/A');
+    return postersEnabled && movie.Poster && movie.Poster !== 'N/A';
   },
   render: function() {
     const { movie } = this.props;
     const { isExpanded } = this.state;
+    const showPoster = this.showPoster();
 
     const movieComponents = [
       el(FavoriteEl, {movie}),
       el(MovieTitleEl, {title: movie.Title}),
-      el(MovieInfoEl, {movie}),
-      el(MoviePosterEl, {url: movie.Poster})
-    ];
+      el(MovieInfoEl, {movie})
+    ].concat(showPoster ? [el(MoviePosterEl, {url: movie.Poster})] : []);
+
     const movieClassName = "movie" +
-                           (this.showPoster() ? " show-poster" : "") +
+                           (showPoster ? " show-poster" : "") +
                            (isExpanded ? " expand" : "");
 
     return li({className: movieClassName, onClick: this.handleClick}, movieComponents);
