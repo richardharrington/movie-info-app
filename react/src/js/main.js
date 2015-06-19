@@ -42,12 +42,17 @@ const fetchFavoritesAndRender = () => {
   Favorites.fetch().then(fetchFullMoviesAndRender);
 };
 
-const main = () => {
+const main = (env) => {
   submitButton.onclick = launchSearchAndRender;
   textInput.onkeypress = event => {
     if (isEnterPressed(event)) launchSearchAndRender();
   };
   fetchFavoritesLink.onclick = fetchFavoritesAndRender;
+
+  if (env === 'dev') {
+    textInput.value = 'kangaroo';
+    launchSearchAndRender();
+  }
 }
 
 export default main;

@@ -1,2 +1,2 @@
 import main from 'js/main';
-main();
+main('dev');
