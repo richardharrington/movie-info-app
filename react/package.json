@@ -19,7 +19,7 @@
       "baseURL": "src"
     },
     "dependencies": {
-      "floatdrop/plugin-jsx": "github:floatdrop/plugin-jsx@^1.1.0",
+      "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "lodash": "npm:lodash@^3.9.3",
       "react": "npm:react@^0.14.0-alpha3"
     },

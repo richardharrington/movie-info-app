@@ -1,9 +1,9 @@
 import Favorites from 'js/Favorites';
 
-import MovieInfo from 'js/components/MovieInfo';
-import MovieFavorite from 'js/components/MovieFavorite';
-import MovieTitle from 'js/components/MovieTitle';
-import MoviePoster from 'js/components/MoviePoster';
+import MovieInfo from 'js/components/MovieInfo.js!jsx';
+import MovieFavorite from 'js/components/MovieFavorite.js!jsx';
+import MovieTitle from 'js/components/MovieTitle.js!jsx';
+import MoviePoster from 'js/components/MoviePoster.js!jsx';
 
 import React from 'react';
 
@@ -34,20 +34,18 @@ const Movie = React.createClass({
     const { isExpanded, isFavorited } = this.state;
     const showPoster = this.showPoster();
     const handleFavoriteClick = isFavorited ? null : this.handleFavoriteClick;
+    const movieClassName = `movie ${showPoster ? "show-poster" : ""}
+                                  ${isExpanded ? "expand" : ""}
+                                  ${isFavorited ? "favorite" : ""}`;
 
-    const movieComponents = [
-      React.createElement(MovieFavorite, {isFavorited, handleFavoriteClick}),
-      React.createElement(MovieTitle, {title: movie.Title}),
-      React.createElement(MovieInfo, {movie})
-    ].concat(showPoster ? [React.createElement(MoviePoster, {url: movie.Poster})] : []);
-
-    const movieClassName = "movie" +
-                           (showPoster ? " show-poster" : "") +
-                           (isExpanded ? " expand" : "") +
-                           (isFavorited ? " favorite" : "");
-
-    return React.DOM.li({className: movieClassName, onClick: this.handleClick}, movieComponents);
-
+    return (
+      <li className={movieClassName} onClick={this.handleClick}>
+        <MovieFavorite isFavorited={isFavorited} handleFavoriteClick={handleFavoriteClick} />
+        <MovieTitle title={movie.Title} />
+        <MovieInfo movie={movie} />
+        {showPoster ? (<MoviePoster url={movie.Poster} />) : null}
+      </li>
+    );
   }
 });
 

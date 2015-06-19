@@ -1,7 +1,5 @@
 import React from 'react';
 
-const {table, tbody, tr, td} = React.DOM;
-
 const displayMap = {
   Year: "Year",
   Rated: "Rated",
@@ -22,16 +20,19 @@ const displayMap = {
 
 const Field = React.createClass({
   render: function() {
-    return tr(null,
-             td({className: "field-name"}, this.props.name),
-             td({className: "field-content"}, this.props.content)
-           );
+    const {name, content} = this.props;
+    return (
+      <tr>
+        <td className="field-name">{name}</td>
+        <td className="field-content">{content}</td>
+      </tr>
+    );
   }
 });
 
 const MovieInfo = React.createClass({
   render: function() {
-    const movie = this.props.movie;
+    const {movie} = this.props;
     const fields = Object.keys(movie).filter(key => {
       const isFieldInListOfFieldsToDisplay = !!displayMap[key];
       return isFieldInListOfFieldsToDisplay && movie[key] !== 'N/A';
@@ -40,13 +41,14 @@ const MovieInfo = React.createClass({
       content: movie[key]
     }));
 
-    return table({className: "movie-info"},
-             tbody(null,
-               fields.map(field => React.createElement(Field, field))
-             )
-           );
+    return (
+      <table className="movie-info">
+        <tbody>
+          { fields.map(field => <Field {...field} />) }
+        </tbody>
+      </table>
+    );
   }
-
 });
 
 export default MovieInfo;

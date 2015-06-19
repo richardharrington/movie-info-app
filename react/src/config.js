@@ -18,6 +18,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.5.8",
     "core-js": "npm:core-js@0.9.17",
     "floatdrop/plugin-jsx": "github:floatdrop/plugin-jsx@1.1.0",
+    "jsx": "github:floatdrop/plugin-jsx@1.1.0",
     "lodash": "npm:lodash@3.9.3",
     "react": "npm:react@0.14.0-alpha3",
     "github:floatdrop/plugin-jsx@1.1.0": {

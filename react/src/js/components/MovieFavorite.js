@@ -5,7 +5,7 @@ const MovieFavorite = React.createClass({
     const { isFavorited, handleFavoriteClick } = this.props;
     const favoritedText = isFavorited ? "Favorited" : "Favorite?";
     const favoritedClass = `favorite-query${isFavorited ? " favorite" : ""}`;
-    return React.DOM.span({onClick: handleFavoriteClick, className: favoritedClass}, favoritedText);
+    return <span onClick={handleFavoriteClick} className={favoritedClass}>{favoritedText}</span>;
   }
 });
 
