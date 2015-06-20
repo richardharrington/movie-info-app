@@ -1,3 +1,6 @@
+$transition-duration: .25s
+$text-hover-color: #777
+
 body
   background-color: #eacf96
   margin-left: 30px
@@ -33,7 +36,7 @@ button
   font-size: 0.9em
   margin-left: 3px
   &:hover
-    color: #777
+    color: $text-hover-color
 
 .movie-list
   margin-top: 20px
@@ -44,25 +47,25 @@ button
   margin-bottom: 5px
   padding: 0 20px
   position: relative
-  -webkit-transition: all .25s ease
-  transition: all .25s ease
+  -webkit-transition: all $transition-duration ease
+  transition: all $transition-duration ease
 
   .favorite-query
     display: inline-block
     font-size: 0.7em
     margin-right: 10px
-    -webkit-transition: all .25s ease
-    transition: all .25s ease
+    -webkit-transition: all $transition-duration ease
+    transition: all $transition-duration ease
     &:hover
-      color: #777
+      color: $text-hover-color
 
   .movie-title
     display: inline-block
     margin: 0 0 0 10px
     font-weight: normal
     font-size: 0.8em
-    -webkit-transition: all .25s ease
-    transition: all .25s ease
+    -webkit-transition: all $transition-duration ease
+    transition: all $transition-duration ease
 
   .movie-info
     display: none
@@ -81,8 +84,8 @@ button
     top: 70px
     left: 590px
     opacity: 0
-    -webkit-transition: all .25s ease
-    transition: all .25s ease
+    -webkit-transition: all $transition-duration ease
+    transition: all $transition-duration ease
 
   &.expand
     margin-bottom: 20px
