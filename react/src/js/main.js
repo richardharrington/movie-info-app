@@ -2,22 +2,11 @@ import Dom from 'js/dom';
 import Imdb from 'js/imdb';
 import Favorites from 'js/favorites';
 import Movie from 'js/components/Movie.js!jsx';
+import SearchForm from 'js/components/SearchForm.js!jsx';
 
 import React from 'react';
 
 import sortBy from 'lodash/collection/sortBy';
-
-const submitButton = Dom.$("button[type=submit]");
-const fetchFavoritesLink = Dom.$(".fetch-favorites");
-const textInput = Dom.$("input[name=searchBox]");
-const movieList = Dom.$(".movie-list");
-
-const extractSearchStr = textInput => textInput.value.trim();
-
-const isEnterPressed = event => {
-  const keyCode = event.which ? event.which : event.keyCode;
-  return (keyCode === 13);
-}
 
 const renderMovies = movies => {
   const sortedMovies = sortBy(movies, 'Title');
@@ -26,16 +15,17 @@ const renderMovies = movies => {
   const movieEls = sortedMovies.map(movie =>
     React.createElement(Movie, { movie, postersEnabled }));
 
+  const movieList = Dom.$(".movie-list");
   Dom.removeChildren(movieList);
-  React.render(React.DOM.div(null, movieEls), movieList);
+  React.render(<div>{movieEls}</div>, movieList);
 };
 
 const fetchFullMoviesAndRender = moviesBasicInfo => {
   Imdb.fetchFullMovieRecords(moviesBasicInfo).then(renderMovies);
 };
 
-const launchSearchAndRender = () => {
-  Imdb.searchForMovies(extractSearchStr(textInput)).then(fetchFullMoviesAndRender);
+const launchSearchAndRender = (searchStr) => {
+  Imdb.searchForMovies(searchStr).then(fetchFullMoviesAndRender);
 };
 
 const fetchFavoritesAndRender = () => {
@@ -43,15 +33,14 @@ const fetchFavoritesAndRender = () => {
 };
 
 const main = (env) => {
-  submitButton.onclick = launchSearchAndRender;
-  textInput.onkeypress = event => {
-    if (isEnterPressed(event)) launchSearchAndRender();
-  };
+  const searchFormContainer = document.querySelector(".search-form-container");
+  React.render(<SearchForm submissionCallback={launchSearchAndRender} />, searchFormContainer);
+
+  const fetchFavoritesLink = Dom.$(".fetch-favorites");
   fetchFavoritesLink.onclick = fetchFavoritesAndRender;
 
   if (env === 'dev') {
-    textInput.value = 'kangaroo';
-    launchSearchAndRender();
+    launchSearchAndRender('kangaroo');
   }
 }
 
