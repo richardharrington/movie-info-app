@@ -21,8 +21,12 @@ var store = (function(dataFileName) {
   var get = read;
   var add = function(newRecord) {
     var data = read();
-    data.push(newRecord);
-    write(data);
+    if (!data.index[newRecord.oid]) {
+      data.records.push(newRecord);
+      data.index[newRecord.oid] = true;
+      write(data);
+    }
+    return data;
   }
   return {add: add, get: get};
 })(DATA_FILE_NAME);
@@ -34,7 +38,7 @@ var sendAsJson = function(res, data) {
 
 app.get('/favorites', function(req, res){
   var data = store.get();
-  sendAsJson(res, data);
+  sendAsJson(res, data.records);
 });
 
 app.post('/favorites', function(req, res){
@@ -42,8 +46,8 @@ app.post('/favorites', function(req, res){
     res.status(400).send({error: "JSON not formed properly"});
     return;
   }
-  store.add(req.body);
-  sendAsJson(res, data);
+  var data = store.add(req.body);
+  sendAsJson(res, data.records);
 });
 
 app.listen(3000, function(){
