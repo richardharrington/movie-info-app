@@ -1,11 +1,9 @@
 import React from 'react';
 
 const SearchForm = React.createClass({
-
   getInitialState: function() {
     return { text: '' };
   },
-
   isEnterPressed: function(event) {
     const keyCode = event.which ? event.which : event.keyCode;
     return (keyCode === 13);
