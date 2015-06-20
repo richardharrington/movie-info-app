@@ -18,6 +18,12 @@ var store = (function(dataFileName) {
   var write = function(data) {
     fs.writeFileSync(dataFilePath, JSON.stringify(data));
   }
+  var init = function() {
+    write({
+      records: [],
+      index: {}
+    });
+  }
   var get = read;
   var add = function(newRecord) {
     var data = read();
@@ -28,7 +34,7 @@ var store = (function(dataFileName) {
     }
     return data;
   }
-  return {add: add, get: get};
+  return {init: init, add: add, get: get};
 })(DATA_FILE_NAME);
 
 var sendAsJson = function(res, data) {
@@ -49,6 +55,8 @@ app.post('/favorites', function(req, res){
   var data = store.add(req.body);
   sendAsJson(res, data.records);
 });
+
+store.init();
 
 app.listen(3000, function(){
   console.log("Listening on port 3000");
