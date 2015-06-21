@@ -21,14 +21,14 @@ const App = React.createClass({
     const sortedMovies = sortBy(movies, 'Title');
     this.setState({movies: sortedMovies});
   },
-  fetchFullMovies: function(moviesBasicInfo) {
-    Imdb.fetchFullMovieRecords(moviesBasicInfo).then(this.updateMovies);
+  fetchMovies: function(movieIds) {
+    Imdb.fetchMovies(movieIds).then(this.updateMovies);
   },
   launchSearch: function(searchStr) {
-    Imdb.searchForMovies(searchStr).then(this.fetchFullMovies);
+    Imdb.searchForMovies(searchStr).then(this.fetchMovies);
   },
   fetchFavorites: function() {
-    Favorites.fetch().then(this.fetchFullMovies);
+    Favorites.fetch().then(this.fetchMovies);
   },
   render: function() {
     return (

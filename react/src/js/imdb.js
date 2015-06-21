@@ -1,14 +1,10 @@
 import Ajax from 'js/ajax';
 
-const fullMovieRoutes = movies =>
-  movies.map(movie => {
-    var oid = movie.oid || movie.imdbID;
-    return `http://www.omdbapi.com/?i=${oid}`;
-  });
+const movieRoutes = movieIds =>
+  movieIds.map(id => `http://www.omdbapi.com/?i=${id}`);
 
-const fetchFullMovieRecords = movies => {
-  var routes = fullMovieRoutes(movies);
-  return Ajax.parallelGet(routes);
+const fetchMovies = movieIds => {
+  return Ajax.parallelGet(movieRoutes(movieIds));
 }
 
 const searchForMovies = searchStr =>
@@ -17,10 +13,11 @@ const searchForMovies = searchStr =>
     Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`)
       .then(response => {
         const movies = response.Search;
-        resolve(movies);
+        const movieIds = movies.map(movie => movie.imdbID);
+        resolve(movieIds);
       });
   });
 
 const isImageDownloadEnabled = () => (location.hostname === 'localhost');
 
-export default { fetchFullMovieRecords, searchForMovies, isImageDownloadEnabled };
+export default { fetchMovies, searchForMovies, isImageDownloadEnabled };

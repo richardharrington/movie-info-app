@@ -1,6 +1,11 @@
 import Ajax from 'js/ajax';
 
-const fetch = () => Ajax.get('/favorites');
+const fetch = () => new Promise(resolve => {
+  Ajax.get('/favorites').then(movies => {
+    const movieIds = movies.map(movie => movie.oid);
+    resolve(movieIds);
+  });
+});
 
 const store = movie => {
   const payload = {
