@@ -26,7 +26,6 @@ const Movie = React.createClass({
 
   showPoster: function() {
     const { movie, postersEnabled } = this.props;
-    if (movie.Poster === 'N/A') console.log('N/A');
     return postersEnabled && movie.Poster && movie.Poster !== 'N/A';
   },
   render: function() {
