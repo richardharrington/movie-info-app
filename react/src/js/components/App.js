@@ -11,7 +11,7 @@ import MovieList from 'js/components/MovieList.js!jsx';
 const App = React.createClass({
   componentDidMount: function() {
     if (this.props.env === 'dev') {
-      this.launchSearch('kangaroo');
+      this.fetchMoviesFromSearch('kangaroo');
     }
   },
   getInitialState: function() {
@@ -21,21 +21,18 @@ const App = React.createClass({
     const sortedMovies = sortBy(movies, 'Title');
     this.setState({movies: sortedMovies});
   },
-  fetchMovies: function(movieIds) {
-    Imdb.fetchMovies(movieIds).then(this.updateMovies);
-  },
-  launchSearch: function(searchStr) {
-    Imdb.searchForMovies(searchStr).then(this.fetchMovies);
+  fetchMoviesFromSearch: function(searchStr) {
+    Imdb.fetchMoviesFromSearch(searchStr).then(this.updateMovies);
   },
   fetchFavorites: function() {
-    Favorites.fetch().then(this.fetchMovies);
+    Favorites.fetchMovies().then(this.updateMovies);
   },
   render: function() {
     return (
       <div className="app">
         <h1>Movie Search</h1>
         <form class="movie-form">
-          <SearchForm submissionCallback={this.launchSearch} />
+          <SearchForm submissionCallback={this.fetchMoviesFromSearch} />
           <FetchFavorites onClick={this.fetchFavorites} />
         </form>
         <MovieList movies={this.state.movies} postersEnabled={this.props.postersEnabled} />

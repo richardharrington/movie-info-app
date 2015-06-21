@@ -7,7 +7,7 @@ const fetchMovies = movieIds => {
   return Ajax.parallelGet(movieRoutes(movieIds));
 }
 
-const searchForMovies = searchStr =>
+const fetchMoviesFromSearch = searchStr =>
   new Promise(resolve => {
     var encodedSearchStr = encodeURIComponent(searchStr);
     Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`)
@@ -16,8 +16,8 @@ const searchForMovies = searchStr =>
         const movieIds = movies.map(movie => movie.imdbID);
         resolve(movieIds);
       });
-  });
+  }).then(fetchMovies);
 
 const isImageDownloadEnabled = () => (location.hostname === 'localhost');
 
-export default { fetchMovies, searchForMovies, isImageDownloadEnabled };
+export default { fetchMovies, fetchMoviesFromSearch, isImageDownloadEnabled };

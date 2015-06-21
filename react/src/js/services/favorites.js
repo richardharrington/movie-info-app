@@ -1,11 +1,15 @@
 import Ajax from 'js/services/ajax';
+import Imdb from 'js/services/imdb';
 
-const fetch = () => new Promise(resolve => {
-  Ajax.get('/favorites').then(movies => {
-    const movieIds = movies.map(movie => movie.id);
-    resolve(movieIds);
-  });
-});
+const fetch = () => Ajax.get('/favorites');
+
+const fetchMovies = () =>
+  fetch().then(favorites =>
+    new Promise(resolve => {
+      const favoriteIds = favorites.map(favorite => favorite.id);
+      resolve(favoriteIds);
+    })
+  ).then(Imdb.fetchMovies);
 
 const store = movie => {
   const payload = {
@@ -15,7 +19,7 @@ const store = movie => {
   return Ajax.post('/favorites', payload);
 }
 
-export default { fetch, store }
+export default { fetch, fetchMovies, store }
 
 
 
