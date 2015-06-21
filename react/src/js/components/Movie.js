@@ -9,7 +9,10 @@ import React from 'react';
 
 const Movie = React.createClass({
   getInitialState: function() {
-    return { isExpanded: false, isFavorited: false };
+    return { isExpanded: false, isFavorited: this.props.movie.initialIsFavorited };
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({isFavorited: nextProps.movie.initialIsFavorited});
   },
   handleClick: function() {
     this.setState({isExpanded: !this.state.isExpanded});

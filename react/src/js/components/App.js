@@ -19,7 +19,12 @@ const App = React.createClass({
   },
   updateMovies: function(movies) {
     const sortedMovies = sortBy(movies, 'Title');
-    this.setState({movies: sortedMovies});
+    Favorites.getIndex().then(index => {
+      const moviesWithFavorites = sortedMovies.map(movie =>
+        Object.assign(movie, {initialIsFavorited: index[movie.imdbID]})
+      );
+      this.setState({movies: moviesWithFavorites});
+    });
   },
   fetchMoviesFromSearch: function(searchStr) {
     Imdb.fetchMoviesFromSearch(searchStr).then(this.updateMovies);

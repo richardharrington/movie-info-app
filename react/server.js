@@ -27,9 +27,9 @@ var store = (function(dataFileName) {
   var get = read;
   var add = function(newRecord) {
     var data = read();
-    if (!data.index[newRecord.id]) {
+    if (!data.index[newRecord.imdbID]) {
       data.records.push(newRecord);
-      data.index[newRecord.id] = true;
+      data.index[newRecord.imdbID] = true;
       write(data);
     }
     return data;
@@ -48,7 +48,7 @@ app.get('/favorites', function(req, res){
 });
 
 app.post('/favorites', function(req, res){
-  if (!req.body.title || !req.body.id) {
+  if (!req.body.title || !req.body.imdbID) {
     res.status(400).send({error: "JSON not formed properly"});
     return;
   }
