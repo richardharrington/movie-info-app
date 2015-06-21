@@ -1,4 +1,5 @@
 import React from 'react';
+import keygen from 'js/services/keygen';
 
 const displayMap = {
   Year: "Year",
@@ -44,7 +45,7 @@ const MovieInfo = React.createClass({
     return (
       <table className="movie-info">
         <tbody>
-          { fields.map(field => <Field {...field} />) }
+          { fields.map(field => <Field {...field} key={keygen()} />) }
         </tbody>
       </table>
     );
