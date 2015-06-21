@@ -27,9 +27,9 @@ var store = (function(dataFileName) {
   var get = read;
   var add = function(newRecord) {
     var data = read();
-    if (!data.index[newRecord.oid]) {
+    if (!data.index[newRecord.id]) {
       data.records.push(newRecord);
-      data.index[newRecord.oid] = true;
+      data.index[newRecord.id] = true;
       write(data);
     }
     return data;
@@ -48,7 +48,7 @@ app.get('/favorites', function(req, res){
 });
 
 app.post('/favorites', function(req, res){
-  if (!req.body.name || !req.body.oid) {
+  if (!req.body.title || !req.body.id) {
     res.status(400).send({error: "JSON not formed properly"});
     return;
   }
