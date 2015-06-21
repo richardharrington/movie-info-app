@@ -1,4 +1,4 @@
-import Favorites from 'js/Favorites';
+import Favorites from 'js/services/favorites';
 
 import MovieInfo from 'js/components/MovieInfo.js!jsx';
 import MovieFavorite from 'js/components/MovieFavorite.js!jsx';

@@ -1,4 +1,4 @@
-import Ajax from 'js/ajax';
+import Ajax from 'js/services/ajax';
 
 const movieRoutes = movieIds =>
   movieIds.map(id => `http://www.omdbapi.com/?i=${id}`);

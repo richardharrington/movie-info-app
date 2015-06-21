@@ -1,4 +1,4 @@
-import Ajax from 'js/ajax';
+import Ajax from 'js/services/ajax';
 
 const fetch = () => new Promise(resolve => {
   Ajax.get('/favorites').then(movies => {

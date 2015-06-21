@@ -1,4 +1,4 @@
-import Imdb from 'js/imdb';
+import Imdb from 'js/services/imdb';
 import App from 'js/components/App.js!jsx';
 
 import React from 'react';

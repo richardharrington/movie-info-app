@@ -1,8 +1,8 @@
 import React from 'react';
 import sortBy from 'lodash/collection/sortBy';
 
-import Imdb from 'js/imdb';
-import Favorites from 'js/favorites';
+import Imdb from 'js/services/imdb';
+import Favorites from 'js/services/favorites';
 
 import SearchForm from 'js/components/SearchForm.js!jsx';
 import FetchFavorites from 'js/components/FetchFavorites.js!jsx';
