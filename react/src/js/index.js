@@ -1,2 +1,4 @@
+import env from 'js/services/env';
 import main from 'js/main.js!jsx';
-main('dev');
+
+env.fetch().then(main);

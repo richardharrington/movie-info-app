@@ -10,7 +10,7 @@ import MovieList from 'js/components/MovieList.js!jsx';
 
 const App = React.createClass({
   componentDidMount: function() {
-    if (this.props.env === 'dev') {
+    if (this.props.env === 'development') {
       this.fetchMoviesFromSearch('kangaroo');
     }
   },
