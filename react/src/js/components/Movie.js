@@ -21,9 +21,12 @@ const Movie = React.createClass({
   handleFavoriteClick: function(event) {
     const { movie } = this.props;
     event.stopPropagation();
-    this.setState({ isFavorited: true });
-    Favorites.store(movie).then(() =>
-      console.log("Congratulations, you've posted a favorite! (We'll do something more meaningful here in the future.)")
+    const nextIsFavorited = !this.state.isFavorited;
+    this.setState({ isFavorited: nextIsFavorited });
+
+    const action = nextIsFavorited ? "save" : "delete";
+    Favorites[action](movie).then(() =>
+      console.log(`Congratulations, you've ${action}d a favorite! (We'll do something more meaningful here in the future.)`)
     );
   },
 
@@ -35,14 +38,13 @@ const Movie = React.createClass({
     const { movie } = this.props;
     const { isExpanded, isFavorited } = this.state;
     const showPoster = this.showPoster();
-    const handleFavoriteClick = isFavorited ? null : this.handleFavoriteClick;
     const movieClassName = `movie ${showPoster ? "show-poster" : ""}
                                   ${isExpanded ? "expand" : ""}
                                   ${isFavorited ? "favorite" : ""}`;
 
     return (
       <li className={movieClassName} onClick={this.handleClick}>
-        <MovieFavorite isFavorited={isFavorited} handleFavoriteClick={handleFavoriteClick} />
+        <MovieFavorite isFavorited={isFavorited} handleFavoriteClick={this.handleFavoriteClick} />
         <MovieTitle title={movie.Title} />
         <MovieInfo movie={movie} />
         {showPoster ? (<MoviePoster url={movie.Poster} />) : null}

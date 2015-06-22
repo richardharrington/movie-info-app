@@ -14,27 +14,41 @@ var store = (function(dataFileName) {
   var dataFilePath = path.join(__dirname, dataFileName);
   var read = function() {
     return JSON.parse(fs.readFileSync(dataFilePath));
-  }
+  };
   var write = function(data) {
     fs.writeFileSync(dataFilePath, JSON.stringify(data));
-  }
+  };
   var init = function() {
     write({
       records: [],
       index: {}
     });
-  }
+  };
   var get = read;
   var add = function(newRecord) {
     var data = read();
     if (!data.index[newRecord.imdbID]) {
       data.records.push(newRecord);
-      data.index[newRecord.imdbID] = true;
+      data.index[newRecord.imdbID] = newRecord;
       write(data);
     }
     return data;
-  }
-  return {init: init, add: add, get: get};
+  };
+  var del = function(id) {
+    var data = read();
+    if (data.index[id]) {
+      delete data.index[id];
+      for (var i = 0; i < data.records.length; i++) {
+        if (data.records[i].imdbID === id) {
+          data.records.splice(i, 1);
+          write(data);
+          break;
+        }
+      }
+    }
+    return data;
+  };
+  return {init: init, add: add, get: get, delete: del};
 })(DATA_FILE_NAME);
 
 var sendAsJson = function(res, data) {
@@ -53,6 +67,11 @@ app.post('/favorites', function(req, res){
     return;
   }
   var data = store.add(req.body);
+  sendAsJson(res, data.records);
+});
+
+app.delete('/favorites/:id', function(req, res){
+  var data = store.delete(req.params.id);
   sendAsJson(res, data.records);
 });
 

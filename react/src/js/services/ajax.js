@@ -45,6 +45,7 @@ const http = (verb, route, data) =>
 
 const get = http.bind(null, 'GET');
 const post = http.bind(null, 'POST');
+const del = http.bind(null, 'DELETE');
 const parallelGet = routes => Promise.all(routes.map(get));
 
-export default { get, post, parallelGet };
+export default { get, post, parallelGet, delete: del };
