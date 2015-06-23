@@ -8,10 +8,12 @@ import SearchForm from 'js/components/SearchForm.js!jsx';
 import FetchFavorites from 'js/components/FetchFavorites.js!jsx';
 import MovieList from 'js/components/MovieList.js!jsx';
 
+import cachedMovieDetailsForDev from 'js/componentHelpers/cachedMovieDetailsForDev';
+
 const App = React.createClass({
   componentDidMount: function() {
     if (this.props.env === 'development') {
-      this.fetchMoviesFromSearch('kangaroo');
+      this.updateMovies(cachedMovieDetailsForDev);
     }
   },
   getInitialState: function() {
