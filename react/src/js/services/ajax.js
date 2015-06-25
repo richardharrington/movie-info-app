@@ -1,3 +1,5 @@
+import csp from 'js-csp';
+
 const isRequestSuccessful = req => req.status >= 200 && req.status < 400;
 
 const reportAjaxError = (status, errorText) => {
@@ -8,11 +10,14 @@ const reportConnectionError = () => {
   console.error("Error connecting with the server.");
 }
 
-const responseHandler = (req, callback) =>
+const responseHandler = (req, outChan) =>
   () => {
     const response = JSON.parse(req.response);
     if (isRequestSuccessful(req)) {
-      callback(response);
+      csp.go(function*() {
+        yield csp.put(outChan, response);
+        outChan.close();
+      });
     }
     else {
       reportAjaxError(req.status, response.error);
@@ -28,24 +33,27 @@ const jsObjToFormBody = obj => {
   return pairs.join('&');
 }
 
-const http = (verb, route, data) =>
-  new Promise(resolve => {
-    const req = new XMLHttpRequest();
-    req.open(verb, route, true);
-    req.onload = responseHandler(req, resolve);
-    req.onerror = reportConnectionError;
-    if (data) {
-      req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      req.send(jsObjToFormBody(data));
-    }
-    else {
-      req.send();
-    }
-  });
+const http = (verb, route, data) => {
+  const outChan = csp.chan();
+  const req = new XMLHttpRequest();
+  req.open(verb, route, true);
+  req.onload = responseHandler(req, outChan);
+  req.onerror = reportConnectionError;
+  if (data) {
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    req.send(jsObjToFormBody(data));
+  }
+  else {
+    req.send();
+  }
+  return outChan;
+}
 
-const get = http.bind(null, 'GET');
-const post = http.bind(null, 'POST');
-const del = http.bind(null, 'DELETE');
-const parallelGet = routes => Promise.all(routes.map(get));
+const [get, post, del] = ['GET', 'POST', 'DELETE'].map(verb => http.bind(null, verb));
+const parallelGet = routes => {
+  const {merge, into} = csp.operations;
+  const responseChans = routes.map(get);
+  return into([], merge(responseChans));
+}
 
 export default { get, post, parallelGet, delete: del };

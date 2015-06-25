@@ -1,3 +1,4 @@
+import csp from 'js-csp';
 import Favorites from 'js/services/favorites';
 
 import MovieInfo from 'js/components/MovieInfo.js!jsx';
@@ -25,9 +26,10 @@ const Movie = React.createClass({
     this.setState({ isFavorited: nextIsFavorited });
 
     const action = nextIsFavorited ? "save" : "delete";
-    Favorites[action](movie).then(() =>
-      console.log(`Congratulations, you've ${action}d a favorite! (We'll do something more meaningful here in the future.)`)
-    );
+    csp.go(function*() {
+      yield Favorites[action](movie);
+      console.log(`Congratulations, you've ${action}d a favorite! (We'll do something more meaningful here in the future.)`);
+    });
   },
 
   showPoster: function() {

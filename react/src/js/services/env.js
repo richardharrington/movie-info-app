@@ -1,8 +1,10 @@
+import csp from 'js-csp';
 import Ajax from 'js/services/ajax';
 
 const fetch = () =>
-  new Promise(resolve =>
-    Ajax.get('/env').then(response =>
-      resolve(response.environment)));
+  csp.go(function*() {
+    const response = yield Ajax.get('/env');
+    return response.environment;
+  });
 
 export default { fetch }

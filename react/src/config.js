@@ -18,6 +18,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.5.8",
     "core-js": "npm:core-js@0.9.17",
     "floatdrop/plugin-jsx": "github:floatdrop/plugin-jsx@1.1.0",
+    "js-csp": "npm:js-csp@0.4.1",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
     "lodash": "npm:lodash@3.9.3",
     "react": "npm:react@0.14.0-alpha3",
@@ -267,6 +268,9 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:js-csp@0.4.1": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:jstransform@10.1.0": {

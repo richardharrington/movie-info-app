@@ -1,5 +1,6 @@
 import React from 'react';
 import sortBy from 'lodash/collection/sortBy';
+import csp from 'js-csp';
 
 import Imdb from 'js/services/imdb';
 import Favorites from 'js/services/favorites';
@@ -20,19 +21,27 @@ const App = React.createClass({
     return {movies: []};
   },
   updateMovies: function(movies) {
-    const sortedMovies = sortBy(movies, 'Title');
-    Favorites.getIndex().then(index => {
+    const self = this;
+    csp.go(function*() {
+      const sortedMovies = sortBy(movies, 'Title');
+      const favoritesIndex = yield Favorites.getIndex();
       const moviesWithFavorites = sortedMovies.map(movie =>
-        Object.assign(movie, {initialIsFavorited: index[movie.imdbID]})
+        Object.assign(movie, {initialIsFavorited: favoritesIndex[movie.imdbID]})
       );
-      this.setState({movies: moviesWithFavorites});
+      self.setState({movies: moviesWithFavorites});
+    });
+  },
+  updateMoviesFromSource: function(sourceChan, input) {
+    const self = this;
+    csp.go(function*() {
+      self.updateMovies(yield sourceChan(input));
     });
   },
   fetchMoviesFromSearch: function(searchStr) {
-    Imdb.fetchMoviesFromSearch(searchStr).then(this.updateMovies);
+    this.updateMoviesFromSource(Imdb.fetchMoviesFromSearch, searchStr);
   },
   fetchFavorites: function() {
-    Favorites.fetchMovies().then(this.updateMovies);
+    this.updateMoviesFromSource(Favorites.fetchMovies);
   },
   render: function() {
     return (

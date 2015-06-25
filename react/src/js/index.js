@@ -1,4 +1,7 @@
+import csp from 'js-csp';
 import env from 'js/services/env';
 import main from 'js/main.js!jsx';
 
-env.fetch().then(main);
+csp.go(function*() {
+  main(yield env.fetch());
+});
