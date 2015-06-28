@@ -8,14 +8,12 @@ const generateIndex = (records, key) => {
   return index;
 }
 
-const fetch = () => Ajax.get('/favorites');
+const fetchMovieStubs = () => Ajax.get('/favorites');
 
 const fetchMovies = () =>
   csp.go(function*() {
-    const favorites = yield fetch();
-    const favoriteIds = favorites.map(favorite => favorite.imdbID);
-    const movies = yield Imdb.fetchMovies(favoriteIds);
-    return movies;
+    const favorites = yield fetchMovieStubs();
+    return yield Imdb.fetchMovies(favorites);
   });
 
 const save = movie => {
@@ -32,8 +30,8 @@ const del = movie => {
 
 const getIndex = () =>
   csp.go(function*() {
-    const favorites = yield fetch();
+    const favorites = yield fetchMovieStubs();
     return generateIndex(favorites);
   });
 
-export default { fetch, fetchMovies, save, getIndex, delete: del }
+export default { fetchMovieStubs, fetchMovies, save, getIndex, delete: del }

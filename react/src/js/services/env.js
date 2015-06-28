@@ -3,8 +3,8 @@ import Ajax from 'js/services/ajax';
 
 const fetch = () =>
   csp.go(function*() {
-    const response = yield Ajax.get('/env');
-    return response.environment;
+    const {environment} = yield Ajax.get('/env');
+    return environment;
   });
 
 export default { fetch }

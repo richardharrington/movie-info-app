@@ -33,10 +33,10 @@ const jsObjToFormBody = obj => {
   return pairs.join('&');
 }
 
-const http = (verb, route, data) => {
+const http = (verb, url, data) => {
   const outChan = csp.chan();
   const req = new XMLHttpRequest();
-  req.open(verb, route, true);
+  req.open(verb, url, true);
   req.onload = responseHandler(req, outChan);
   req.onerror = reportConnectionError;
   if (data) {
@@ -50,10 +50,10 @@ const http = (verb, route, data) => {
 }
 
 const [get, post, del] = ['GET', 'POST', 'DELETE'].map(verb => http.bind(null, verb));
-const parallelGet = routes => {
+const getParallel = urls => {
   const {merge, into} = csp.operations;
-  const responseChans = routes.map(get);
+  const responseChans = urls.map(get);
   return into([], merge(responseChans));
 }
 
-export default { get, post, parallelGet, delete: del };
+export default { get, post, getParallel, delete: del };

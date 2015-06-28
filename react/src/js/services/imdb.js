@@ -1,27 +1,30 @@
 import csp from 'js-csp';
 import Ajax from 'js/services/ajax';
 
-const movieRoutes = movieIds =>
-  movieIds.map(id => `http://www.omdbapi.com/?i=${id}`);
+const movieSearchEndpoint = 'http://www.omdbapi.com/?type=movie&s=';
+const movieEndpoint = 'http://www.omdbapi.com/?i=';
 
-const movieSearchChan = searchStr => {
-  var encodedSearchStr = encodeURIComponent(searchStr);
-  return Ajax.get(`http://www.omdbapi.com/?type=movie&s=${encodedSearchStr}`);
+const movieUrls = movieStubs =>
+  movieStubs.map(stub => movieEndpoint + stub.imdbID);
+
+function fetchMovieStubsFromSearch(searchStr) {
+  return csp.go(function*() {
+    const url = movieSearchEndpoint + encodeURIComponent(searchStr);
+    const {Search: movieStubs} = yield Ajax.get(url);
+    return movieStubs;
+  });
 }
 
-const fetchMovies = movieIds => {
-  return Ajax.parallelGet(movieRoutes(movieIds));
+function fetchMovies(movieStubs) {
+  return Ajax.getParallel(movieUrls(movieStubs));
 }
 
-const fetchMoviesFromSearch = searchStr =>
+const searchForMovies = searchStr =>
   csp.go(function*() {
-    const response = yield movieSearchChan(searchStr);
-    const movieStubs = response.Search;
-    const movieIds = movieStubs.map(movieStub => movieStub.imdbID);
-    const movies = yield fetchMovies(movieIds);
-    return movies;
+    const movieStubs = yield fetchMovieStubsFromSearch(searchStr);
+    return yield fetchMovies(movieStubs);
   });
 
 const isImageDownloadEnabled = () => (location.hostname === 'localhost');
 
-export default { fetchMovies, fetchMoviesFromSearch, isImageDownloadEnabled };
+export default { fetchMovies, searchForMovies, isImageDownloadEnabled };
