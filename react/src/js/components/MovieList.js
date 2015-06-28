@@ -1,4 +1,4 @@
-import Movie from 'js/components/Movie.js!jsx';
+import Movie from 'js/components/Movie';
 
 import React from 'react';
 import keygen from 'js/services/keygen';

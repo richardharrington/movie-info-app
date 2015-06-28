@@ -1,10 +1,10 @@
 import csp from 'js-csp';
 import Favorites from 'js/services/favorites';
 
-import MovieInfo from 'js/components/MovieInfo.js!jsx';
-import MovieFavorite from 'js/components/MovieFavorite.js!jsx';
-import MovieTitle from 'js/components/MovieTitle.js!jsx';
-import MoviePoster from 'js/components/MoviePoster.js!jsx';
+import MovieInfo from 'js/components/MovieInfo';
+import MovieFavorite from 'js/components/MovieFavorite';
+import MovieTitle from 'js/components/MovieTitle';
+import MoviePoster from 'js/components/MoviePoster';
 
 import React from 'react';
 
