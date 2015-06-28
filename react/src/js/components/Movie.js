@@ -40,9 +40,13 @@ const Movie = React.createClass({
     const { movie } = this.props;
     const { isExpanded, isFavorited } = this.state;
     const showPoster = this.showPoster();
-    const movieClassName = `movie ${showPoster ? "show-poster" : ""}
-                                  ${isExpanded ? "expand" : ""}
-                                  ${isFavorited ? "favorite" : ""}`;
+    const classes = [
+      [true, "movie"],
+      [showPoster, "show-poster"],
+      [isExpanded, "expand"],
+      [isFavorited, "favorite"]
+    ].filter(entry => entry[0]).map(entry => entry[1]);
+    const movieClassName = classes.join(" ");
 
     return (
       <li className={movieClassName} onClick={this.handleClick}>
