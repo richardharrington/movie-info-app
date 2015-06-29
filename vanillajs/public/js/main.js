@@ -81,12 +81,12 @@
     var movieEl = Dom.el('li', {className: movieClassName}, movieComponents);
 
     movieEl.onclick = function() {
-      Dom.toggleClass(movieEl, 'expand');
+      movieEl.classList.toggle('expand');
     }
     var favoriteEventListener = function(event) {
       event.stopPropagation();
       favorite.innerHTML = "favorited!";
-      Dom.addClass(movieEl, 'favorite');
+      movieEl.classList.add('favorite');
       storeFavorite(movie);
       favorite.removeEventListener('click', favoriteEventListener);
     };
