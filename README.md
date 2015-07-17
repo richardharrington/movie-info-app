@@ -2,9 +2,9 @@
 
 An app which fetches movie info from IMDB, and stores favorites.
 
-Mainly an example project to try in a few different versions. Currently we have a vanilla JS (ES5) version, an ES5 version that uses some libraries and npm module loading with browserify, and a version that uses ES6 and uses jspm for package management and System.js for module loading.
+Mainly an example project for me to try in a few different new technologies. Currently we have a vanilla JS (ES5) version, an ES5 version that uses some libraries and npm module loading with browserify, and a version that uses ES6 and uses jspm for package management and System.js for module loading, but the main one I'm still working on is the 'React' folder, which also uses jspm.
 
-Later we'll try doing it in React, maybe look at webpack, doing the whole thing with Rails, doing it in Clojure/ClojureScript, etc. I know not all of these things lend themselves to this project, but making the same app over and over again is a good way to learn all the things.
+Later we'll maybe look at webpack, doing the whole thing with Rails, doing it in Clojure/ClojureScript, etc. I know not all of these things lend themselves to this project, but making the same app over and over again is a good way to learn all the things.
 
 To run locally:
 
@@ -16,9 +16,9 @@ To run locally:
 
 3a. Special instructions before step 3, temporarily until we make a change to the jspm library: remove the top-level npm dependencies from package.json before running jspm install, then restore them after it runs. Will prevent an error from being thrown.
 
-2. `npm start`
+4. `npm start`
 
-3. Go to `http://localhost:3000` in a browser
+5. Go to `http://localhost:3000` in a browser
 
 ### Issues ###
 
