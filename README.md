@@ -16,8 +16,6 @@ To run locally:
 
 It's currently a work in progress. Among the issues:
 
-- Passing of errors from server to client, and the client dealing with them, needs to be made a lot more robust.
+- Passing of errors (including timeout errors) from server to client, and the client dealing with them, needs to be made a lot more robust.
 
-- Display of existing favorites in new searches is buggy, probably because of my lack of understanding of React's `componentWillReceiveProps` lifecycle method.
-
-- No spinners or any kind of messaging during slow dev builds and api calls.
+- There are no spinners or any kind of messaging during slow dev builds and api calls.
