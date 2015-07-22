@@ -1,5 +1,5 @@
 {
-  "name": "jspm_and_es6",
+  "name": "movie-info-app",
   "version": "0.0.0",
   "description": "version of movie app now with jspm, System.js, and es6",
   "main": "index.js",
