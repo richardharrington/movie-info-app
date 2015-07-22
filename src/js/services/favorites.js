@@ -31,7 +31,8 @@ const del = movie => {
 const getIndex = () =>
   csp.go(function*() {
     const favorites = yield fetchMovieStubs();
-    return generateIndex(favorites);
+    console.log(favorites);
+    return generateIndex(favorites, 'imdbID');
   });
 
 export default { fetchMovieStubs, fetchMovies, save, getIndex, delete: del }
