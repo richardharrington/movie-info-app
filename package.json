@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install && jspm install && gulp"
+    "start": "npm install && jspm install && jspm bundle js/index src/js/main-bundle.js --inject && gulp && node server.js"
   },
   "author": "Richard Harrington",
   "license": "BSD-2-Clause",
@@ -15,8 +15,7 @@
     "gulp-sass": "~2.0.1",
     "browser-sync": "~2.7.12",
     "gulp-nodemon": "~2.0.3",
-    "gulp-env": "~0.2.0",
-    "run-sequence": "~1.1.1"
+    "gulp-env": "~0.2.0"
   },
   "jspm": {
     "directories": {

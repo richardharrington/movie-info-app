@@ -47,7 +47,11 @@ gulp.task('sass:watch', function() {
   gulp.watch("src/sass/*.sass", ['sass']);
 });
 
-gulp.task('serve', ['sass', 'nodemon', 'browser-sync', 'sass:watch']);
 
-gulp.task('default', ['serve']);
+
+gulp.task('dev', ['sass', 'nodemon', 'browser-sync', 'sass:watch']);
+
+gulp.task('prod', ['sass']);
+
+gulp.task('default', ['prod']);
 
