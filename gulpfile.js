@@ -49,17 +49,5 @@ gulp.task('sass:watch', function() {
 
 gulp.task('serve', ['sass', 'nodemon', 'browser-sync', 'sass:watch']);
 
-gulp.task('set-dev', function() {
-  env({
-    vars: {
-      NODE_ENV: 'development'
-    }
-  });
-});
-
-gulp.task('dev', function() {
-  runSequence('set-dev', 'serve');
-});
-
 gulp.task('default', ['serve']);
 

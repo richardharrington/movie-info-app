@@ -9,14 +9,7 @@ import SearchForm from 'js/components/SearchForm';
 import FetchFavorites from 'js/components/FetchFavorites';
 import MovieList from 'js/components/MovieList';
 
-import cachedMovieDetailsForDev from 'js/componentHelpers/cachedMovieDetailsForDev';
-
 const App = React.createClass({
-  componentDidMount: function() {
-    if (this.props.env === 'development') {
-      this.updateMovies(cachedMovieDetailsForDev);
-    }
-  },
   getInitialState: function() {
     return {movies: []};
   },
