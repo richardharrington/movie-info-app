@@ -21,7 +21,7 @@ const App = React.createClass({
     return {movies: []};
   },
   updateMovies: function(movies) {
-    const self = this;
+    let self = this;
     csp.go(function*() {
       const sortedMovies = sortBy(movies, 'Title');
       const favoritesIndex = yield Favorites.getIndex();
@@ -32,7 +32,7 @@ const App = React.createClass({
     });
   },
   updateMoviesFromSourceChan: function(getSourceChan, input) {
-    const self = this;
+    let self = this;
     csp.go(function*() {
       self.updateMovies(yield getSourceChan(input));
     });

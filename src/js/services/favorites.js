@@ -2,21 +2,24 @@ import csp from 'js-csp';
 import Ajax from 'js/services/ajax';
 import Imdb from 'js/services/imdb';
 
-const generateIndex = (records, key) => {
+function generateIndex(records, key) {
   let index = {};
   records.forEach(record => index[record[key]] = record);
   return index;
 }
 
-const fetchMovieStubs = () => Ajax.get('/favorites');
+function fetchMovieStubs() {
+  return Ajax.get('/favorites');
+}
 
-const fetchMovies = () =>
-  csp.go(function*() {
+function fetchMovies() {
+  return csp.go(function*() {
     const favorites = yield fetchMovieStubs();
     return yield Imdb.fetchMovies(favorites);
   });
+}
 
-const save = movie => {
+function save(movie) {
   const payload = {
     title: movie.Title,
     imdbID: movie.imdbID
@@ -24,15 +27,15 @@ const save = movie => {
   return Ajax.post('/favorites', payload);
 }
 
-const del = movie => {
+function del(movie) {
   return Ajax.delete(`/favorites/${movie.imdbID}`);
 }
 
-const getIndex = () =>
-  csp.go(function*() {
+function getIndex() {
+  return csp.go(function*() {
     const favorites = yield fetchMovieStubs();
-    console.log(favorites);
     return generateIndex(favorites, 'imdbID');
   });
+}
 
 export default { fetchMovieStubs, fetchMovies, save, getIndex, delete: del }
