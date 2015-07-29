@@ -1,9 +1,7 @@
 var gulp        = require('gulp');
 var browserSync = require('browser-sync').create();
-var runSequence = require('run-sequence');
 var sass        = require('gulp-sass');
 var nodemon     = require('gulp-nodemon');
-var env         = require('gulp-env');
 
 gulp.task('nodemon', function(callback) {
   var called = false;

@@ -77,10 +77,6 @@ app.delete('/favorites/:id', function(req, res){
   sendAsJson(res, data.records);
 });
 
-app.get('/env', function(req, res) {
-  sendAsJson(res, {environment: process.env.NODE_ENV});
-})
-
 store.init();
 
 app.listen(app.get('port'), function(){
