@@ -24,17 +24,17 @@ const App = React.createClass({
       self.setState({movies: moviesWithFavorites});
     });
   },
-  updateMoviesFromSourceChan: function(getSourceChan, input) {
+  fetchMoviesFromSearch: function(searchStr) {
     let self = this;
     csp.go(function*() {
-      self.updateMovies(yield getSourceChan(input));
+      self.updateMovies(yield Imdb.searchForMovies(searchStr));
     });
   },
-  fetchMoviesFromSearch: function(searchStr) {
-    this.updateMoviesFromSourceChan(Imdb.searchForMovies, searchStr);
-  },
   fetchFavorites: function() {
-    this.updateMoviesFromSourceChan(Favorites.fetchMovies);
+    let self = this;
+    csp.go(function*() {
+      self.updateMovies(yield Favorites.fetchMovies());
+    });
   },
   render: function() {
     return (
